@@ -1,0 +1,290 @@
+\renewcommand{\u}[2]{\ensuremath{\SI{#1}{#2}}}
+\newcommand{\mlab}{\texttt{MATLAB}}
+\newcommand{\emlab}{\texttt{Embedded MATLAB}}
+\newcommand{\slink}{\texttt{Simulink}}
+\newcommand{\cpp}{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+\newcommand{\eigen}{\texttt{Eigen}}
+\newcommand{\qpoases}{\texttt{qpOASES}}
+
+\newcommand{\fig}[1]{Figure~\ref{fig:#1}}
+\newcommand{\sect}[1]{Section~\ref{sec:#1}}
+\newcommand{\tab}[1]{Table~\ref{tab:#1}}
+\newcommand{\refs}[1]{\cref{#1}}
+% \crefname{figure}{Fig.}{Figs.}
+
+% string commands
+\newcommand{\ReplaceStr}[2]{%
+  \IfSubStr{#1}{XX}{%
+    \StrSubstitute{#1}{XX}{#2}
+  }{#1}
+}
+
+\glsaddkey
+{user7}% key
+{}% default value
+{\glsentryuservii}
+{\Glsentryuservii}
+{\glsuservii}
+{\Glsuservii}
+{\GLSuservii}
+
+\glsaddkey
+{user8}% key
+{}% default value
+{\glsentryuserviii}
+{\Glsentryuserviii}
+{\glsuserviii}
+{\Glsuserviii}
+{\GLSuserviii}
+
+\glsaddkey
+{user9}% key
+{}% default value
+{\glsentryuserix}
+{\Glsentryuserix}
+{\glsuserix}
+{\Glsuserix}
+{\GLSuserix}
+
+\glsaddkey
+{user10}% key
+{}% default value
+{\glsentryuserx}
+{\Glsentryuserx}
+{\glsuserx}
+{\Glsuserx}
+{\GLSuserx}
+
+\glsaddkey
+{user11}% key
+{}% default value
+{\glsentryuserxi}
+{\Glsentryuserxi}
+{\glsuserxi}
+{\Glsuserxi}
+{\GLSuserxi}
+% glossary shortcuts
+\newcommand{\g}[1]{\gls*{#1}}
+\newcommand{\gi}[1]{\glsuseri*{#1}\glsunset{#1}}
+\newcommand{\gii}[1]{\glsuserii*{#1}\glsunset{#1}}
+\newcommand{\giii}[1]{\glsuseriii*{#1}\glsunset{#1}}
+\newcommand{\giv}[1]{\glsuseriv*{#1}\glsunset{#1}}
+\newcommand{\gv}[1]{\glsuserv*{#1}\glsunset{#1}}
+\newcommand{\gvi}[1]{\glsuservi*{#1}\glsunset{#1}}
+\newcommand{\gvii}[1]{\glsuservii*{#1}\glsunset{#1}}
+\newcommand{\gviii}[1]{\glsuserviii*{#1}\glsunset{#1}}
+\newcommand{\gix}[1]{\glsuserix*{#1}\glsunset{#1}}
+\newcommand{\gx}[1]{\glsuserx*{#1}\glsunset{#1}}
+\newcommand{\gxi}[1]{\glsuserxi*{#1}\glsunset{#1}}
+\newcommand{\gpl}[1]{\glspl*{#1}\glsunset{#1}}
+
+\newcommand{\ga}[1]{\glsuseri*{#1}\glsunset{#1}}
+\newcommand{\gb}[1]{\glsuserii*{#1}\glsunset{#1}}
+\newcommand{\gc}[1]{\glsuseriii*{#1}\glsunset{#1}}
+
+\newcommand{\gk}[1]{\gls*{#1}}
+\newcommand{\gpo}[1]{\glsuseri*{#1}\glsunset{#1}}
+\newcommand{\gmo}[1]{\glsuserii*{#1}\glsunset{#1}}
+\newcommand{\gpi}[1]{\glsuseriii*{#1}\glsunset{#1}}
+\newcommand{\gpio}[1]{\glsuseriv*{#1}\glsunset{#1}}
+\newcommand{\gpt}[1]{\glsuserv*{#1}\glsunset{#1}}
+\newcommand{\gpimo}[1]{\glsuservi*{#1}\glsunset{#1}}
+
+\newcommand{\gentry}[1]{\glsentryname{#1}}
+\newcommand{\gentryi}[1]{\glsentryuseri{#1}}
+\newcommand{\gentryii}[1]{\glsentryuserii{#1}}
+\newcommand{\gentryiii}[1]{\glsentryuseriii{#1}}
+\newcommand{\gentryiv}[1]{\glsentryuseriv{#1}}
+
+\newcommand{\gentrymo}[1]{\glsentryuserii{#1}}
+
+\newcommand{\addsym}[2]{#1\addsymbol{#1}{#2}}
+\newcommand{\addlat}[4][]{%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \glssetexpandfield{sortvalue}
+  \newglossaryentry{#2}{name={#3},description={#4},type={latin},sort=\mysort}
+}
+\newcommand{\addgrk}[4][]{%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \glssetexpandfield{sortvalue}
+  \newglossaryentry{#2}{name={#3},description={#4},type={greek},sort={\mysort}}
+}
+
+\newcommand{\addlatdelta}[4][]{
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \glssetexpandfield{sortvalue}
+  \newglossaryentry{#2}{name={#3},user1={\gentryi{Delta}#3},description={#4},type={latin},sort={\mysort}}
+}
+
+\newcommand{\addlatnumbered}[4][]{%
+  \addglsnumbered{#1}{#2}{#3}{#4}{latin}%
+}
+
+\newcommand{\addgrknumbered}[4]{%
+  \addglsnumbered{#1}{#2}{#3}{#4}{greek}%
+}
+
+\newcommand{\addglsnumbered}[5]{%
+  \saveexpandmode\normalexpandarg
+  \saveexploremode\exploregroups
+  \StrSubstitute{#3}{XX}{}[\myname]%
+  \StrSubstitute{#3}{XX}{,1}[\myuserone]%
+  \StrSubstitute{#3}{XX}{,2}[\myusertwo]%
+  \StrSubstitute{#3}{XX}{,1,k}[\myuserthree]%
+  \StrSubstitute{#3}{XX}{,2,k}[\myuserfour]%
+  \restoreexpandmode
+  \restoreexploremode
+  \glssetexpandfield{sortvalue}
+  \glssetexpandfield{name}
+%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \newglossaryentry{#2}%
+  {%
+    name={\myname},%
+    user1={\myuserone},%
+    user2={\myusertwo},%
+    user3={\myuserthree},%
+    user4={\myuserfour},%
+    description={#4},%
+    sort={\mysort},%
+    type={#5}%
+  }%
+}
+
+\newcommand{\addglswk}[5]{%
+  \saveexpandmode\normalexpandarg
+  \saveexploremode\exploregroups
+  \StrSubstitute{#3}{XX}{}[\myname]%
+  \StrSubstitute{#3}{XX}{,k}[\myuserone]%
+  \StrSubstitute{#3}{XX}{,k+i}[\myusertwo]%
+  \restoreexpandmode
+  \restoreexploremode
+  \glssetexpandfield{sortvalue}
+  \glssetexpandfield{name}
+%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \newglossaryentry{#2}%
+  {%
+    name={\myname},%
+    user1={\myuserone},%
+    user2={\myusertwo},%
+    description={#4},%
+    sort={\mysort},%
+    type={#5}%
+  }%
+}
+
+\newcommand{\addglsunumbered}[5]{%
+  \saveexpandmode\normalexpandarg
+  \saveexploremode\exploregroups
+  \StrSubstitute{#3}{XX}{}[\myname]%
+  \StrSubstitute{#3}{XX}{1}[\myuserone]%
+  \StrSubstitute{#3}{XX}{2}[\myusertwo]%
+  \StrSubstitute{#3}{XX}{1,k}[\myuserthree]%
+  \StrSubstitute{#3}{XX}{2,k}[\myuserfour]%
+  \restoreexpandmode
+  \restoreexploremode
+  \glssetexpandfield{sortvalue}
+  \glssetexpandfield{name}
+%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \newglossaryentry{#2}%
+  {%
+    name={\myname},%
+    user1={\myuserone},%
+    user2={\myusertwo},%
+    user3={\myuserthree},%
+    user4={\myuserfour},%
+    description={#4},%
+    sort={\mysort},%
+    type={#5}%
+  }%
+}
+
+\newcommand{\addlatfork}[4][]{%
+  \addglsfork{#1}{#2}{#3}{#4}{latin}%
+}
+
+\newcommand{\addgrkfork}[4][]{%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \addglsfork{\mysort}{#2}{#3}{#4}{greek}%
+}
+
+\newcommand{\addglsfork}[5]{%
+  \saveexpandmode\normalexpandarg
+  \saveexploremode\exploregroups
+  \StrSubstitute{#3}{XX}{k}[\myname]%
+  \StrSubstitute{#3}{XX}{k+1}[\myuserone]%
+  \StrSubstitute{#3}{XX}{k-1}[\myusertwo]%
+  \StrSubstitute{#3}{XX}{k+i}[\myuserthree]%
+  \StrSubstitute{#3}{XX}{k+i+1}[\myuserfour]%
+  \StrSubstitute{#3}{XX}{k+2}[\myuserfive]%
+  \StrSubstitute{#3}{XX}{k+i-1}[\myusersix]%
+  \restoreexpandmode
+  \restoreexploremode
+  \glssetexpandfield{sortvalue}
+  \glssetexpandfield{name}
+%
+  \ifstrempty{#1}{\def\mysort{#2}}{\def\mysort{#1}}
+  \newglossaryentry{#2}%
+  {%
+    name={\myname},%
+    user1={\myuserone},%
+    user2={\myusertwo},%
+    user3={\myuserthree},%
+    user4={\myuserfour},%
+    user5={\myuserfive},%
+    user6={\myusersix},%
+    description={#4},%
+    sort={\mysort},%
+    type={#5}%
+  }%
+}
+
+% underbrace with normal text
+\newcommand{\ubrace}[2]{\underbrace{#1}_{\textstyle #2}}
+\newcommand{\obrace}[2]{\overbrace{#1}^{\textstyle #2}}
+
+
+\newcommand{\dt}[1]{\ensuremath{\frac{d#1}{dt}}}
+\newcommand{\ut}[1]{\ensuremath{_\text{#1}}}
+
+% define what to do with vectors
+\newcommand{\vc}[1]{\ensuremath{\bm{#1}}}
+
+% transpose
+\newcommand{\tps}[1]{\ensuremath{#1^\intercal}}
+
+% add argmin operator in math mode
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% redefine ams macro to allow optional argument for controlling matrix line spacing
+\makeatletter
+\renewcommand*\env@matrix[1][\arraystretch]{%
+  \edef\arraystretch{#1}%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols c}
+}
+\makeatother
+
+% command to add extra space between rows of an amsmath matrix
+\newcommand{\matskip}[1]{\\\noalign{\vspace{#1}}}
+
+% remove header info from glossaries
+\renewcommand{\glsglossarymark}[1]{}
+
+% remove scientific notation from y axes in pgfplots
+\newcommand{\yaxisfixedformat}{yticklabel style={/pgf/number format/fixed}}
+
+% ur aug symbols
+\newcommand{\uraug}{%
+  \ensuremath{ \begin{bmatrix} 0\\ \begin{bmatrix} u_{\text{r},k-1}\\ 0\\ \end{bmatrix}\\ 0\end{bmatrix}}%
+}
+\newcommand{\uraugii}{%
+  \ensuremath{ \begin{bmatrix} 0\\ \begin{bmatrix} u_{\text{r},k-1}\\u_{\text{r},k-1}\\ 0\\ \end{bmatrix}\\ 0\end{bmatrix}}%
+}
+\newcommand{\urauggen}{%
+  \ensuremath{ \begin{bmatrix} 0\\ \begin{bmatrix} u_{\text{r},k-1}\\\vdots \end{bmatrix}\\ 0\end{bmatrix}}%
+}
+

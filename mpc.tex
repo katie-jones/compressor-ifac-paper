@@ -1,0 +1,94 @@
+Two variants of MPC are considered in this work: centralized and distributed control.
+Centralized control is considered too computationally expensive to implement in practice, necessitating the development of more efficient distributed controllers, but it is used as a benchmark to evaluate the performance of the distributed controllers.
+The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, a linearized approach is taken in this work whereby the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization. 
+In order to control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
+The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
+No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
+
+The nonlinear model is linearized at each sampling instant about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
+At sampling instant $k$ it is thus given by:
+
+\begin{equation}
+  \begin{split}
+    \gi{Delta} \gpio{xhat} & = \gi{sys-mats} \gi{Delta}\gpi{xhat} + \gii{sys-mats} \gi{Delta}\gpi{ucurr} + \g{fcurr}\left( \g{xhat}, \gmo{ucurr} \right)\\
+    \gi{Delta} \gpi{ycurr} & = \giii{sys-mats} \gi{Delta} \gpi{xhat}, \qquad i\geq 0\\
+  \end{split}
+\end{equation}
+
+\noindent where \g{fcurr} is the derivative of the system evaluated at the linearization point, \g{xhat} is the state estimate at time instant $k$, \giv{sys-mats}\glsadd{sys-mats} give the model linearized about the current operating point, and \g{Delta} refers to the difference in $\left( \cdot \right)$ relative to the linearization point.
+
+The resulting discrete-time, linear system is then augmented to include both error states as integrators for offset-free control, and delayed input states for the recycle valve.
+One integrator for each output is added, as well as 40 delayed states per compressor (multiplied by a sampling rate of \u{50}{ms} to give a total delay of \u{2}{s}).
+With these additions, the augmented state of the system (\g{xaug}) is given by:
+
+\begin{equation}
+  \g{xaug} =
+  \begin{bmatrix}
+    \gi{Delta} \g{xhat}\\
+    \g{udel}\\
+    \g{integrator}
+  \end{bmatrix},
+  \qquad
+  \g{udel} = \tps{\begin{bmatrix} u_{\text{r},k-n\ut{del}+1} & \cdots & u_{\text{r},k-1} & u_{\text{r},k} \end{bmatrix}}
+%
+  \label{eq:mpc:xaug}
+\end{equation}
+
+\noindent where 
+\g{xhat} contains the original states of the system, 
+\g{udel} contains the delayed recycle valve inputs from the earliest to most recent,
+$n\ut{del}$ is the total number of delayed states and
+\g{integrator} contains the integrator states.
+
+
+The augmented system dynamics are then as follows:
+
+\begin{align}
+  \begin{split}
+    \label{eq:mpc:augmented-state-eqs}
+    \gpio{xaug} ={}& 
+    \ubrace{\begin{bmatrix}
+      \ga{sys-mats} & \begin{bmatrix} \g{Bdelay} & 0\end{bmatrix} & 0 \\[0.5em]
+      0 & \begin{bmatrix} 0 & \g{Adelay} \end{bmatrix} & 0\\[0.5em]
+      0 & 0 & I_{n\ut{e}\times n\ut{e}}
+    \end{bmatrix}}{\ga{augsys-mats}}
+    \left( \gpi{xaug} - 
+    \begin{bmatrix}
+      0\\
+      \begin{bmatrix}
+        u_{\text{r},k-1}\\
+        0\\
+      \end{bmatrix}\\
+      0
+    \end{bmatrix}
+    \right)\\
+    & + 
+    \ubrace{\begin{bmatrix}
+      \g{Bnodelay}\\
+      \g{Baug}\\
+      0
+    \end{bmatrix}}{\gb{augsys-mats}}
+    \ubrace{\begin{bmatrix}
+      u_{\text{r},k+i}\\
+      \Delta T_{\text{d},k+i}
+    \end{bmatrix}}{\gpi{deltau}}
+    + \begin{bmatrix}
+      \g{fcurr}\\ 0 \\ 0
+    \end{bmatrix}
+  \end{split}\\
+% y
+  \gi{Delta} \g{ycurr} ={}& \ubrace{\begin{bmatrix}
+    \gc{sys-mats} & 0 & I_{n\ut{e} \times n\ut{e}}
+  \end{bmatrix}}{\gc{augsys-mats}}
+  \g{xaug}
+  \label{eq:mpc:augmented-output-eqs}
+\end{align}
+
+
+\noindent where
+$n\ut{e}$ gives the number of integrator states,
+and \giv{augsys-mats}\glsadd{augsys-mats} give the augmented, linearized model of the system.
+
+The first component of \gpi{udel}  is multiplied by \g{Bdelay}, and must therefore be corrected by a factor $u_{\text{r},k-1}$, the value about which the system was linearized. 
+The other components of \gpi{udel} are not corrected because they are only multiplied by \g{Adelay} which simply shifts them up a row.
+

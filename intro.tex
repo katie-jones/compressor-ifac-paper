@@ -1,0 +1,94 @@
+Centrifugal gas compressors are employed in a wide range of industrial applications, particularly for gas transportation, extraction and processing.
+Compression is an inherently energy-intensive process, with well over 90\% of operating costs spent on energy; small improvements in efficiency can therefore have a significant impact on the operating costs.
+At the same time, compressors are critical components in natural gas installations, meaning even short downtimes can also have a large economic impact.
+Compressor control systems must therefore maintain the compressor's operating point within its safe operating regime, avoiding instabilities that may damage its machinery and lead to such downtimes.
+The most relevant of these instabilities for control is surge, a phenomenon that occurs when the pressure ratio observed by the compressor is too high for the given mass flow, leading to oscillations in both the mass flow and output pressure, as well as vibrations and an increase in temperature.
+Surge can cause permanent damage to machinery in a relatively short time span and it is imperative for industrial compressor control systems to avoid it.
+
+Compressor control thus consists of two sometimes competing goals: process control, wherein a given process variable (e.g. output pressure) is maintained at a given reference value, and anti-surge control (ASC), which keeps the compressor out of the surge regime.
+The performance of a compressor's anti-surge controller (ASC) is relevant for its efficiency: the most efficient operating points often lie on or near the surge line bounding the unstable surge regime.
+An increase in the performance of the ASC thus leads directly to an increase in the attainable efficiency for a given system as the compressor can be operated nearer to the surge line.
+
+The current state-of-the-art in compressor control uses two independent controllers for process control and ASC.
+The process controller tracks a setpoint of a process variable (e.g. output pressure) by manipulating the speed of the gas turbine or electric driver driving the compressor, while the ASC keeps the compressor away from surge by manipulating the position of a recycle valve.
+This valve can be opened to allow flow from the outlet back to the inlet, effectively increasing the mass flow of the compressor and decreasing its pressure ratio, moving the system away from surge.
+Current industrial practice is to implement these controllers using simple PID controllers, with added loop decoupling and hand-tuned open-loop control responses near boundaries to address nonlinearities and coupling.
+Constraints are generally treated using clipping and anti-windup logic, which require further tuning.
+
+Such a decoupled approach is necessary when considering gas turbine-powered compressors, as the dynamics of the turbine -- and thus the process control loop -- are much slower than those that lead to compressor surge. 
+The transition of compressor control from gas turbines to electric drivers with much faster dynamics has, however, opened the door for new, multivariable control algorithms that combine process control and ASC into a single controller.
+Such a multivariable controller can take advantage of the quick response of electric driver torque compared to the recycle valve opening to decrease the response time of the ASC to disturbances, thereby increasing its performance.
+In recent years, model predictive control (MPC) has been proposed as an alternative to frequency-domain approaches as it can explicitly consider both the coupling and physical constraints that make compressor control so challenging.
+*** Add references ***
+The advantages of such an approach were shown in \cite{Cortinovis2015} for a single compressor.
+
+In industrial applications, compressors are often combined, either in parallel to increase the mass flow at a particular point, or in series to increase the overall pressure ratio achieved.
+The major disadvantage of MPC compared to conventional control approaches is the computational complexity inherent in the approach, and the resulting difficulty of executing the controllers at a sampling rate fast enough to handle the relatively fast dynamics observed in compressors. 
+In particular, as the number of states and inputs increase -- as for systems of multiple, coupled compressors -- so does the required computation time of an MPC controller, making traditional MPC impractical in many situations. 
+
+In this article a distributed MPC (dMPC) control approach is proposed, which overcomes this limitation by dividing the optimization problem posed by a multi-compressor system into sub-problems to be solved at the individual compressor level.
+These sub-problems can be solved in parallel, reducing the required sample time as compared to a centralized MPC solution.
+Some information exchange between the compressors occurs and the sub-problems are solved interatively to allow the system to converge towards an optimal solution, though global optimality is not guaranteed.
+Two variants of dMPC are examined: a cooperative scheme where each compressor optimizes a single cost function using its own inputs, and a non-cooperative scheme where each compressor optimizes a cost function based only on its own inputs.
+The use of dMPC implies a loss of performance compared to a traditional, centralized MPC controller, as the solution obtained is no longer guaranteed to be globally optimal.
+The consequences of this loss of optimality on control performance -- in particular ASC performance -- are examined for both the cooperative and non-cooperative control approaches.
+Two compressor systems are considered as test cases to evaluate the performance of the dMPC approach in simulation: a parallel and a serial configuration, each with two compressors.
+In addition to the controller performance, the computational efficiency of each control approach is evaluated.
+
+
+
+% This limitation can be overcome using a distributed MPC (dMPC) approach, whereby the optimization problem posed by a multi-compressor system can be divided into sub-problems to be solved at the individual compressor level, with some information exchange to converge to a globally optimal solution. 
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compressor control generally consists of two separate, sometimes competing tasks: process control and anti-surge control.
+% Process control seeks primarily to regulate an output variable of the compressor -- in this report, the output pressure is used, but mass flow or other variables could equally be chosen.
+% The manipulated variable used in process control varies depending on the type of compressor studied.
+% Gas turbine-driven compressors, for example, may have a valve regulating the fuel flow to the turbine, which can be adjusted by the control system to increase or decrease the compressor speed. 
+% For the electric, variable-speed drivers considered in this thesis, the manipulated variable is the torque applied by the driver to the compressor, which is adjusted to maintain the output pressure at the desired setpoint.
+% In conventional control systems, process control is implemented using cascaded PID controllers for the discharge pressure, driver speed and driver torque, which operate at different sampling rates to ensure time-scale separation.
+
+% A diagram of a compressor with a typical, convention control system is shown in \fig{intro:compressor:diagram}.
+% The cascaded process, speed and torque PID controllers and the independent anti-surge controller are depicted.
+
+% % \begin{figure}
+  % % \centering
+  % % \includegraphics[width=\linewidth]{intro/diagram.png}
+  % % \caption{Diagram of compressor with conventional control system \cite{Cortinovis2015}.}
+  % % \label{fig:intro:compressor:diagram}
+% % \end{figure}
+
+
+% Anti-surge control keeps the compressor away from an unstable regime known as surge, which is characterized by oscillations in the mass flow rate and pressures, as well as increased temperatures and vibrations.
+% Surge occurs when the system resistance on the compressor is too high, leading to backflow until the resistance is reduced.
+% At this point forward flow is restored, and the compressor enters a limit cycle.
+% Surge typically occurs at low mass flow conditions.
+% Operating in the surge regime can cause serious damage to the compressor and the surrounding piping system.
+
+% Surge is avoided primarily through the use of a recycle valve, which can be opened to allow flow from the discharge to the suction tank of the compressor.
+% This simultaneously reduces the discharge pressure and increases the mass flow through the compressor, moving the operating point down and to the right on the compressor map -- away from surge.
+% For compressors with electric drivers, the torque input to the driver can also be used to rapidly increase the mass flow through the compressor, thereby temporarily increasing the surge distance.
+
+% The conditions leading to surge are determined experimentally and plotted as a line on the compressor map, known as the surge line (SL).
+% \footnote{The transition to surge only collapses onto a single line in the compressor map if (quasi\babelhyphen{nobreak})invariant coordinates are used; the transition to surge is then invariant to the inlet conditions. 
+% For a detailed discussion of compressor maps and invariant coordinate systems, see \cite{Batson1996}.
+% For the purposes of this work, the pressure ratio and mass flow rate are used and are assumed to be quasi-invariant for the cases studied.}
+% This plot is then used to define a surge distance (\g{sd}) for the compressor, which is defined as the horizontal distance between the current operating point and the surge line.
+% \footnote{The surge distance is sometimes also defined as the angular distance between the operating point and the surge line.}
+% To avoid entering the surge regime, a surge control line (SCL) that is offset from the surge line, and a corresponding surge control distance (\g{scd}) are defined to add a safety margin for the controller.
+% The controller should maintain the operating point to the right of the surge control line.
+% A compressor map with the surge line and surge distance labeled is shown in \fig{intro:comp-map}.
+% From this map, it can be seen that the effect of the recycle valve, which is to increase the mass flow and decrease the pressure ratio, moves the compressor away from surge.
+
+% % \begin{figure}
+  % % \centering
+  % % \input{intro/figs/comp-map.tex}
+  % % \caption[Generic compressor map.]{Generic compressor map with labeled surge distance (\g{sd}) and surge control distance (\g{scd}). Curved, dotted lines are lines of constant compressor speed.}
+  % % \label{fig:intro:comp-map}
+% % \end{figure}
+
+% Although the surge regime should be avoided during compressor operation, often the most efficient operating points (and thus the operating points used in industrial applications) are on or near the surge control line.
+% If the compressor enters surge, however, it often triggers a costly shutdown of the system to prevent damaging the machinery.
+% The anti-surge controller is a crucial safety feature that permits the safe operation of the plant and protects the equipment from damage.
+% Furthermore, it is crucial in allowing the compressor to maximize efficiency by operating near the surge line, while still rejecting disturbances quickly enough to avoid entering the surge regime.
+

@@ -1,0 +1,26 @@
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Cortinovis et~al.(2015)Cortinovis, Ferreau, Lewandowski, and
+  Mercang{\"{o}}z}]{Cortinovis2015}
+Cortinovis, A., Ferreau, H., Lewandowski, D., and Mercang{\"{o}}z, M. (2015).
+\newblock {Experimental evaluation of MPC-based anti-surge and process control
+  for electric driven centrifugal gas compressors}.
+\newblock \emph{Journal of Process Control}, 34, 13--25.
+\newblock \doi{10.1016/j.jprocont.2015.07.001}.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S0959152415001390}.
+
+\bibitem[{Gravdahl and Egeland(1999)}]{Gravdahl1999}
+Gravdahl, J.T. and Egeland, O. (1999).
+\newblock {Compressor Surge and Stall: An Introduction}.
+\newblock In \emph{Compressor Surge and Rotating Stall}, 1--62. Springer
+  London.
+
+\end{thebibliography}

@@ -1,0 +1,65 @@
+%===============================================================================
+% $Id: ifacconf.tex 19 2011-10-27 09:32:13Z jpuente $  
+% Template for IFAC meeting papers
+% Copyright (c) 2007-2008 International Federation of Automatic Control
+%===============================================================================
+\documentclass{ifacconf}
+
+\usepackage{natbib}        % required for bibliography
+
+\input{head/pkgs.tex}
+\input{head/defs.tex}
+\input{head/glossaries}
+\input{head/acronyms}
+%===============================================================================
+\begin{document}
+\begin{frontmatter}
+
+\title{Distributed Model Predictive Control of Centrifugal Compressor Systems} 
+% Title, preferably not more than 10 words.
+
+\thanks[footnoteinfo]{Sponsor and financial support acknowledgment
+goes here. Paper titles should be written in uppercase and lowercase
+letters, not all uppercase.}
+
+\author[First]{K. Jones} 
+\author[First]{A. Cortinovis} 
+\author[First]{M. Mercangoez}
+
+\address[First]{ABB Switzerland Ltd., Corporate Research, Baden-Dättwil, Switzerland (e-mail: katie.jones@reactive-robotics.com, andrea.cortinovis@ch.abb.com, mehmet.mercangoez@ch.abb.com).}
+
+\begin{abstract}                % Abstract of not more than 250 words.
+The performance and computational cost of distributed MPC for the control of compressor networks is investigated in simulation.
+Both cooperative and non-cooperative approaches are considered and compared to the performance achieved with centralized control in the presence of a discharge-side disturbance.
+Two systems, each with two compressors, are studied: one is arranged in parallel configuration and the other in series.
+Due to the high degree of non-linearity of both systems, the models are re-linearized at each time step and a linear, delta MPC formulation is used.
+The controller is implemented using the quadratic program solver \qpoases{}, and a \cpp{} implementation is used to evaluate the computational cost of each control approach.
+The non-cooperative controller exhibited a significantly reduced computation time relative to the centralized controller (25\% and 40\% lower for the parallel and serial configurations, respectively), while the cooperative controller did not significantly reduce the computation time.
+For the parallel configuration, both distributed and centralized controllers had identical control performance.
+For the serial configuration, only the cooperative controller achieved similar performance to the centralized approach; the non-cooperative controller demonstrated a 9\% reduction in the minimum surge control distance reached in the downstream compressor.
+\end{abstract}
+
+\begin{keyword}
+  Distributed mpc, anti-surge control, nonlinear mpc, compressor modeling, variable speed drive
+\end{keyword}
+
+\end{frontmatter}
+%===============================================================================
+
+\section{Introduction}
+\input{intro.tex}
+
+\section{Modelling \& Simulation}
+\input{modelling.tex}
+
+\section{Model Predictive Control Formulation}
+\input{mpc.tex}
+
+\section{Simulation Results}
+% \input{results.tex}
+
+\section{Conclusion}
+% \input{conclusion.tex}
+
+\bibliography{end/MasterThesis.bib}
+\end{document}
