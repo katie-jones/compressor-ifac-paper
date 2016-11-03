@@ -1,0 +1,40 @@
+\togglefalse{compleg}
+\togglefalse{complabel}
+\newdimen\xcoord
+\newdimen\ycoord
+\newdimen\xcoordb
+\newdimen\ycoordb
+
+  \centering
+\resizebox{0.9\linewidth}{!}{%
+  \begin{tikzpicture}
+    \renewcommand{\glsgraphcmd}[1]{\glsentryuseri{#1}}
+      % draw first compressor
+    \drawcomp
+      % \draw (current bounding box.south west) rectangle (current bounding box.north east);
+
+    \togglefalse{compfirstvalve}
+
+    \pgfgetlastxy{\xcoord}{\ycoord}
+    \renewcommand{\glsgraphcmd}[1]{\glsentryuserii{#1}}
+
+      % Draw second compressor shifted
+    \begin{scope}[yscale=-1,xscale=1,shift={($(\xcoord,\ycoord) - (0.5*\tankdim,6.65)$)},transform shape,nodes={xscale=1,yscale=-1}]
+      \drawcomp
+    \end{scope}
+
+    \pgfgetlastxy{\xcoordb}{\ycoordb}
+
+    % \coordinate (origin) at ($0.5*(\xcoord,\ycoord) + 0.5*(\xcoordb,\ycoordb)$);
+    \coordinate (origin) at (\xcoord,\ycoord);
+    % Label compressors
+    \node at ($(origin) - (4,0)$) {\Large \bfseries Compressor 1};
+    \node at ($(origin) + (4,0)$) {\Large \bfseries Compressor 2};
+    \node at ($(origin) + (6.2,-0.2)$) {\bctext{\glsgraph{pa}}};
+    \node at ($(origin) - (6.0,-2.7)$) {\bctext{\glsgraph{pa}}};
+
+    % Legend
+    % \drawlegend{($(current bounding box.north west) + (1,-1)$)}
+
+  \end{tikzpicture}
+}

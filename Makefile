@@ -1,7 +1,7 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 SRCDIR = $(ROOT_DIR)
-OUTDIR = $(ROOT_DIR)
+OUTDIR = $(ROOT_DIR)/out
 AUXDIR = $(OUTDIR)/aux
 
 SOURCE = $(SRCDIR)/main.tex
@@ -24,7 +24,6 @@ IMGFILES := $(shell find $(SRCDIR) -regextype posix-extended -path "$(AUXDIR)/*"
 AUXIMGFILES := $(subst $(SRCDIR),$(AUXDIR),$(IMGFILES))
 
 all: $(TARGET) 
-	echo "$(IMGFILES)"
 
 $(TARGET): $(PDF_OUTPUT)
 	cp "$(PDF_OUTPUT)" "$(TARGET)"

@@ -1,0 +1,57 @@
+\togglefalse{compleg}
+\togglefalse{complabel}
+\resizebox{\linewidth}{!}{%
+  \large
+  \begin{tikzpicture}
+      % draw first compressor
+    \renewcommand{\glsgraphcmd}[1]{\glsentryuseri{#1}}
+    \drawcomp
+
+      % Draw second compressor shifted
+    \begin{scope}[yscale=1,xscale=-1,shift={(-24,0)},nodes={xscale=1}]
+      \renewcommand{\glsgraphcmd}[1]{\glsentryuserii{#1}}
+      \drawcomp
+    \end{scope}
+
+    \renewcommand{\glsgraphcmd}[1]{\glsentryname{#1}}
+
+      % Increase size of bounding box
+    % \useasboundingbox ($(current bounding box.south east) - (0,2)$) rectangle (current bounding box.north west |- 0,17);
+
+    % \node[align=center] (origin) at (12.5,3.0) {Common\\Tank\\\statetext{\glsgraph{pt}}};
+    \coordinate (origin) at (12.0, 3.4);
+
+    % Draw common tank and valve
+    % \drawtank{(ctank-bl)}{(ctank-tr)}
+    \node[align=center,rectangle,minimum height=2.5cm,text width=5cm,draw=tankcolor,line width=\tankthick] (ctank) at (origin) {Common Tank\\\statetext{\glsgraph{pt}}};
+
+    \coordinate (ctank-bl) at (ctank.south west);
+    \coordinate (ctank-tr) at (ctank.north east);
+    \coordinate (ovalve) at ($(ctank.north) + (0,\valvewidth) + (0,1)$);
+
+    \drawvalve[rotate=90, transform shape]{ovalve}{0.4}
+    \node[below, rotate=90, transform shape, align=center] at ($(ovalve)+(\valveheight,0)$) {Common\\Tank Valve};
+
+    % Draw flow arrows
+    \draw[->,line width=\arrowthick] (ctank.north) -- ($(ovalve)-(0,\valvewidth)-(0,0.5*\valvethick)$);
+    \drawflow[->]{($(ovalve)+(0,\valvewidth)+(0,0.5*\valvethick)$)}{+(0,1)}
+
+    % Label valve
+    \draw[<-,draw=inputcolor,line width=2pt] ($(ovalve)-(2*\valveheight,0)$) -- ++(-1,0) node[below right]{\inputtext{\glsgraph{ut}}};
+
+
+    % Label boundary conditions
+    \node at ($(ovalve)+(0,2)$) {\bctext{\glsgraph{pa}}};
+    \node at ($(ovalve)+(10.5,0)$) {\bctext{\glsgraph{pa}}};
+    \node at ($(ovalve)+(-10.5,0)$) {\bctext{\glsgraph{pa}}};
+
+    % Label individual compressors
+    \node[align=center] at ($(origin)-(6,1)$) {\Large\bfseries Compressor 1};
+    \node[align=center] at ($(origin)+(6,-1)$) {\Large\bfseries Compressor 2};
+
+    % Legend
+    % \drawlegend{($(ovalve)+(3.5,0)$)}
+    % \drawlegend{(current bounding box.north east)}
+
+  \end{tikzpicture}
+}
