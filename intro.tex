@@ -12,15 +12,19 @@ An increase in the performance of the ASC thus leads directly to an increase in 
 The current state-of-the-art in compressor control uses two independent controllers for process control and ASC.
 The process controller tracks a setpoint of a process variable (e.g. output pressure) by manipulating the speed of the gas turbine or electric driver driving the compressor, while the ASC keeps the compressor away from surge by manipulating the position of a recycle valve.
 This valve can be opened to allow flow from the outlet back to the inlet, effectively increasing the mass flow of the compressor and decreasing its pressure ratio, moving the system away from surge.
-Current industrial practice is to implement these controllers using simple PID controllers, with added loop decoupling and hand-tuned open-loop control responses near boundaries to address nonlinearities and coupling.
+Current industrial practice is to implement these controllers using simple PID controllers, with added loop decoupling and hand-tuned open-loop control responses near boundaries to address nonlinearities and control interactions.
 Constraints are generally treated using clipping and anti-windup logic, which require further tuning.
 
 Such a decoupled approach is necessary when considering gas turbine-powered compressors, as the dynamics of the turbine -- and thus the process control loop -- are much slower than those that lead to compressor surge. 
-The transition of compressor control from gas turbines to electric drivers with much faster dynamics has, however, opened the door for new, multivariable control algorithms that combine process control and ASC into a single controller.
+The transition of compressor control from gas turbines to electric drivers with faster torque responses has, however, opened the door for new, multivariable control algorithms that combine process control and ASC into a single controller.
 Such a multivariable controller can take advantage of the quick response of electric driver torque compared to the recycle valve opening to decrease the response time of the ASC to disturbances, thereby increasing its performance.
 In recent years, model predictive control (MPC) has been proposed as an alternative to frequency-domain approaches as it can explicitly consider both the coupling and physical constraints that make compressor control so challenging.
-*** Add references ***
-The advantages of such an approach were shown in \cite{Cortinovis2015} for a single compressor.
+
+Cortinovis et al. showed that combined process and ASC using MPC led to a reduced distance to surge and a reduced settling time for process control in a centrifugal compressor in experiments compared to the current state-of-the-art \cite{Cortinovis2015}. 
+Similarly, Budinis and Thornhill found that a combined process/anti-surge MPC controller better handled disturbances on the inlet and outlet valves as well as changes in load pattern compared to a PID controller in simulation \cite{Budinis2015}.
+Bentaleb et al. also demonstrated that an MPC controller manipulating both driver speed and the inlet guide vanes could achieve better process performance than a PID controller manipulating only the driver speed \cite{Bentaleb2014}.
+This result was extended by Bentaleb to include the use of a recycle valve to combine process and anti-surge control \cite{Bentaleb2015}.
+
 
 The major disadvantage of MPC compared to conventional control approaches is the computational complexity inherent in the approach, and the resulting difficulty of executing the controllers at a sampling rate fast enough to handle the relatively fast dynamics observed in compressors. 
 In industrial applications, compressors are often combined, either in parallel to increase the mass flow at a particular point, or in series to increase the overall pressure ratio achieved, further increasing the computational complexity of an MPC controller.
