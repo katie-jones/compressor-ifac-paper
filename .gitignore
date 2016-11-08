@@ -1,1 +1,5 @@
 out/
+*.log
+*.dpth
+main-figure*
+*.swp

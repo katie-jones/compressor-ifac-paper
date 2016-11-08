@@ -11,7 +11,10 @@
 \input{head/defs.tex}
 \input{head/glossaries}
 \input{head/acronyms}
-\input{diagram.tex}
+\input{figures/diagram.tex}
+
+\usetikzlibrary{external}
+\tikzexternalize
 %===============================================================================
 \begin{document}
 \begin{frontmatter}
@@ -19,9 +22,9 @@
 \title{Distributed Model Predictive Control of Centrifugal Compressor Systems} 
 % Title, preferably not more than 10 words.
 
-\thanks[footnoteinfo]{Sponsor and financial support acknowledgment
-goes here. Paper titles should be written in uppercase and lowercase
-letters, not all uppercase.}
+% \thanks[footnoteinfo]{Sponsor and financial support acknowledgment
+% goes here. Paper titles should be written in uppercase and lowercase
+% letters, not all uppercase.}
 
 \author[First]{K. Jones} 
 \author[First]{A. Cortinovis} 
@@ -57,7 +60,7 @@ For the serial configuration, only the cooperative controller achieved similar p
 \input{mpc.tex}
 
 \section{Simulation Results}
-% \input{results.tex}
+\input{results.tex}
 
 \section{Conclusion}
 % \input{conclusion.tex}

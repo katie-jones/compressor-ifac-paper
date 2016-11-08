@@ -1,3 +1,4 @@
+\label{sec:modelling}
 The controllers presented in this work were evaluated in simulation, using a model based on a two-compressor system at an ABB Research Facility. 
 The physical setup is described in \cite{Cortinovis2015} for a single compressor.
 Two different configurations were tested: a parallel configuration and a serial configuration, each consisting of two compressors which, for simplicity, were assumed to be identical.
@@ -5,7 +6,7 @@ Two different configurations were tested: a parallel configuration and a serial 
 The single compressor unit used in this work refers to a centrifugal compressor driven by a variable-speed electric driver, with a tank at both the inlet (suction) and outlet (discharge).
 Both the suction and discharge tanks are connected to atmospheric pressure by a valve.
 These suction and discharge valves represent the flow conditions upstream and downstream of the compressor, respectively, such that various flow conditions and disturbances can be simulated by simply changing the position of the valves.
-The artificial disturbances applied using these valves are designed to mimic situations frequently encountered in industrial applications (e.g. shutdown or startup of a downstream compressor).
+The artificial disturbances applied using these valves are designed to mimic situations frequently encountered in industrial applications (e.g.\ shutdown or startup of a downstream compressor).
 The compressor model used is based on the Gravdahl-Greitzer model described in \cite{Gravdahl1999}. 
 It is defined by five states: the suction (\g{ps}) and discharge (\g{pd}) pressures, the mass flow through the compressor (\g{qc}), the rotational speed of the compressor (\g{omegac}), and the mass flow rate through the recycle valve (\g{qr}).
 The two inputs to the system are the torque applied to the electric driver (\g{torque}) and the position of the recycle valve (\g{ur}).
@@ -19,15 +20,15 @@ For the serial configuration, the upstream compressor discharges directly into t
 The states, inputs and outputs are the same as those of the individual compressors.
 
 \begin{figure}
-  \begin{subfigure}{\linewidth}
-    \input{diagram_parallel.tex}
-    \caption{Parallel compressor system}
-  \end{subfigure}
-  \\
-  \begin{subfigure}{\linewidth}
-    \input{diagram_serial.tex}
-    \caption{Serial compressor system}
-  \end{subfigure}
+  % \begin{subfigure}{\linewidth}
+    \input{figures/diagram_parallel.tex}
+    {\centering a) Parallel compressor system.\\}
+  % \end{subfigure}
+  % \\
+  % \begin{subfigure}{\linewidth}
+    \input{figures/diagram_serial.tex}\\
+    {\centering b) Serial compressor system.\\}
+  % \end{subfigure}
   \caption[Diagram of compressor systems.]{Diagram of compressor systems with inputs and states labelled.}
   \label{fig:comp-systems-diagrams}
 \end{figure}

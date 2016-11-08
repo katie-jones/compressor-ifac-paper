@@ -1,0 +1,130 @@
+% This file was created by matlab2tikz.
+%
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=0.38\linewidth,
+height=0.3\linewidth,
+at={(0\linewidth,0\linewidth)},
+scale only axis,
+xmin=1,
+xmax=9,
+xlabel={Number of solver iterations},
+xmajorgrids,
+ymin=0.2,
+ymax=0.55,
+ylabel={Computation time [ms]},
+ymajorgrids,
+axis background/.style={fill=white},
+title style={font=\bfseries,yshift=2.1ex},
+title={Parallel System},
+ylabel near ticks,
+legend columns=-1,
+legend style={at={(0.03,1.25)},anchor=north west,legend cell align=left,align=left,draw=none}
+]
+\addplot [color=mycolor1,solid,line width=1pt,mark size=3.0pt,mark=o,mark options={solid}]
+  table[row sep=crcr]{%
+1	0.3476\\
+2	0.3476\\
+3	0.3476\\
+4	0.3476\\
+5	0.3476\\
+6	0.3476\\
+7	0.3476\\
+8	0.3476\\
+9	0.3476\\
+};
+\addlegendentry{Centralized};
+
+\addplot [color=mycolor2,solid,line width=1pt,mark size=2.5pt,mark=square,mark options={solid}]
+  table[row sep=crcr]{%
+1 0.3636\\
+2 0.3760\\
+3 0.3845\\
+4 0.4085\\
+5 0.4130\\
+6 0.4191\\
+7 0.4384\\
+8 0.4381\\
+9 0.4502\\
+};
+\addlegendentry{Cooperative};
+
+\addplot [color=mycolor3,solid,line width=1pt,mark size=3.0pt,mark=x,mark options={solid}]
+  table[row sep=crcr]{%
+1 0.2302\\
+2 0.2399\\
+3 0.2496\\
+4 0.2622\\
+5 0.2691\\
+6 0.2806\\
+7 0.2900\\
+8 0.3055\\
+9 0.3137\\
+};
+\addlegendentry{Non-cooperative};
+
+\end{axis}
+
+\begin{axis}[%
+% width=0.761\linewidth,
+% height=0.597\linewidth,
+width=0.38\linewidth,
+height=0.3\linewidth,
+at={(0.5\linewidth,0\linewidth)},
+scale only axis,
+xmin=1,
+xmax=9,
+xlabel={Number of solver iterations},
+xmajorgrids,
+ymin=0.2,
+ymax=0.55,
+% ylabel={Average computation time [ms]},
+ymajorgrids,
+axis background/.style={fill=white},
+title style={font=\bfseries,yshift=2.1ex},
+title={Serial System}
+]
+\addplot [color=mycolor1,solid,line width=1pt,mark size=3.0pt,mark=o,mark options={solid},forget plot]
+  table[row sep=crcr]{%
+1	0.3713\\
+2	0.3713\\
+3	0.3713\\
+4	0.3713\\
+5	0.3713\\
+6	0.3713\\
+7	0.3713\\
+8	0.3713\\
+9	0.3713\\
+};
+\addplot [color=mycolor2,solid,line width=1pt,mark size=2.5pt,mark=square,mark options={solid},forget plot]
+  table[row sep=crcr]{%
+1 0.3437\\
+2 0.3620\\
+3 0.3670\\
+4 0.3794\\
+5 0.3895\\
+6 0.4135\\
+7 0.4199\\
+8 0.4249\\
+9 0.4428\\
+};
+\addplot [color=mycolor3,solid,line width=1pt,mark size=3.0pt,mark=x,mark options={solid},forget plot]
+  table[row sep=crcr]{%
+1 0.2169\\
+2 0.2224\\
+3 0.2294\\
+4 0.2415\\
+5 0.2483\\
+6 0.2576\\
+7 0.2694\\
+8 0.2773\\
+9 0.2887\\
+};
+\end{axis}
+
+\end{tikzpicture}%
