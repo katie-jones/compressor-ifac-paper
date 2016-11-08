@@ -9,7 +9,7 @@ The disturbances used were as follows:
 In the following plots, the disturbances are persistent and applied at \u{50}{s}, after the system has reached steady state.
 
 The distributed controllers in this section were implemented using 3 controller iterations. 
-As discussed in \cite{jones2016}, this number was determined sufficient for convergence of the applied inputs.
+As discussed in \cite{Jones2016}, this number was determined sufficient for convergence of the applied inputs.
 
 \subsection{Parallel System Control Performance}
 The time response of each controller for the parallel system is shown in \fig{res:parallel-timeresp}.
@@ -261,7 +261,7 @@ It should be noted that increasing the number of solver iterations above 3 had n
 The significant advantage in computation time demonstrated by the non-cooperative controller is a result of the reduced size of its prediction matrices, which are multiplied as described in \sect{mpc} to generate the \g{qp}.
 The computational cost of the \g{qp} generation is approximately linear in the number of outputs used, and the non-cooperative approach considers fewer outputs than the centralized or cooperative approaches (see \tab{res:parallel-weights}).
 
-As described in~\cite{jones2016}, for the systems considered here, the QP-generation step has a much higher computational cost than the QP-solving step.
+As described in~\cite{Jones2016}, for the systems considered here, the QP-generation step has a much higher computational cost than the QP-solving step.
 % The percentage of computation time spent on solving QPs (including the time required to update the linear QP term after each solver iteration for the distributed controllers) is shown in \fig{res:qp-compcost}.
 % The remaining time is largely dedicated to QP generation.
 % These results are implementation dependent and the computation time required for QP generation could be reduced by using a more efficient linear algebra library that that provided in \eigen{}, however it would still contribute significantly to the total computational cost.
