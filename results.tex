@@ -14,29 +14,29 @@ As discussed in \cite{Jones2016}, this number was determined sufficient for conv
 \subsection{Parallel System Control Performance}
 The time response of each controller for the parallel system is shown in \fig{res:parallel-timeresp}.
 The responses obtained using each of the three controllers are virtually identical -- in this case, using a distributed control approach has no performance penalty and a potential decrease in computational cost (see below).
-The controller weights used to generate these results are summarized in \tab{res:parallel-weights}.
+% The controller weights used to generate these results are summarized in \tab{res:parallel-weights}.
 
-\begin{table}
-  \centering
-  \footnotesize
-  \caption[Controller weights used for the parallel system.]{Controller weights used for the parallel system. Surge distance is normalized by a factor of 1000 to have similar weight ranges.}%
-  \label{tab:res:parallel-weights}
-  \begin{tabular}{ccccc}
-    \toprule
-    & Centralized & Coop. & Non-coop. 1 & Non-coop. 2 \\
-    \midrule
-    \gi{torque}  & 20 & 19 & 22 & 0 \\
-    \gii{torque}  & 20  & 19 & 0 & 22 \\
-    \gi{ur}  & 200 & 190 & 220 & 0 \\
-    \gii{ur}  & 200 & 190 & 0 & 220 \\
-    \gi{sd}  & 1 & 1 & 1 & 0 \\
-    \gii{sd}  & 1 & 1 & 0 & 1 \\
-    % \multirow{2}{*}{Compressor output pressure}& \gi{pd}  & 0 & 0 & 0 & 0 \\
-    % & \gii{pd}  &0 & 0 & 0 & 0 \\
-    \g{pt}  & 0.5 & 0.42 & 0.6 & 0.6 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+% \begin{table}
+  % \centering
+  % \footnotesize
+  % \caption[Controller weights used for the parallel system.]{Controller weights used for the parallel system. Surge distance is normalized by a factor of 1000 to have similar weight ranges.}%
+  % \label{tab:res:parallel-weights}
+  % \begin{tabular}{ccccc}
+    % \toprule
+    % & Centralized & Coop. & Non-coop. 1 & Non-coop. 2 \\
+    % \midrule
+    % \gi{torque}  & 20 & 19 & 22 & 0 \\
+    % \gii{torque}  & 20  & 19 & 0 & 22 \\
+    % \gi{ur}  & 200 & 190 & 220 & 0 \\
+    % \gii{ur}  & 200 & 190 & 0 & 220 \\
+    % \gi{sd}  & 1 & 1 & 1 & 0 \\
+    % \gii{sd}  & 1 & 1 & 0 & 1 \\
+    % % \multirow{2}{*}{Compressor output pressure}& \gi{pd}  & 0 & 0 & 0 & 0 \\
+    % % & \gii{pd}  &0 & 0 & 0 & 0 \\
+    % \g{pt}  & 0.5 & 0.42 & 0.6 & 0.6 \\
+    % \bottomrule
+  % \end{tabular}
+% \end{table}
 
 
 
@@ -65,7 +65,7 @@ The controller weights used to generate these results are summarized in \tab{res
       \input{figures/parallel_ur.tex}
     }
   % \end{subfigure}
-  \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers. Distributed controllers use 3 solver iterations. The disturbance applied is a closing of the common tank discharge valve from 70\% to 40\% at time \u{50}{s}.}
+    \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:parallel-timeresp}
 \end{figure}
 
@@ -103,28 +103,28 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 
 The time response of the serial system is shown in \fig{res:serial-timeresp}.
 A zoomed view of the initial surge distance response is shown in \fig{res:serial-sd-zoom}.
-The controller weights used to generate these results are summarized in \tab{res:serial-weights}.
+% The controller weights used to generate these results are summarized in \tab{res:serial-weights}.
 
-\begin{table}
-  \centering
-  \caption[Controller weights used for the serial system.]{Controller weights used for the serial system. Surge distance is normalized by a factor of 1000 to have similar weight ranges.}
-  \footnotesize
-  \begin{tabular}{ccccc}
-    \toprule
-    & Centralized & Coop. & Non-coop. 1 & Non-coop. 2 \\
-    \midrule
-    \gi{torque}  & 20 & 41 & 30 & 0 \\
-    \gii{torque}  & 20  & 25 & 0 & 30 \\
-    \gi{ur}  & 250 & 500 & 500 & 0 \\
-    \gii{ur}  & 250 & 500 & 0 & 500 \\
-    \gi{pd}  & 0.2 & 0.75 & 1.9 & 0 \\
-    \gii{pd}  & 1 & 1.5 & 0 & 1.9 \\
-    \gi{sd}  & 1 & 4 & 3 & 0 \\
-    \gii{sd}  & 8 & 8 & 0 & 3 \\
-    \bottomrule
-  \end{tabular}
-  \label{tab:res:serial-weights}
-\end{table}
+% \begin{table}
+  % \centering
+  % \caption[Controller weights used for the serial system.]{Controller weights used for the serial system. Surge distance is normalized by a factor of 1000 to have similar weight ranges.}
+  % \footnotesize
+  % \begin{tabular}{ccccc}
+    % \toprule
+    % & Centralized & Coop. & Non-coop. 1 & Non-coop. 2 \\
+    % \midrule
+    % \gi{torque}  & 20 & 41 & 30 & 0 \\
+    % \gii{torque}  & 20  & 25 & 0 & 30 \\
+    % \gi{ur}  & 250 & 500 & 500 & 0 \\
+    % \gii{ur}  & 250 & 500 & 0 & 500 \\
+    % \gi{pd}  & 0.2 & 0.75 & 1.9 & 0 \\
+    % \gii{pd}  & 1 & 1.5 & 0 & 1.9 \\
+    % \gi{sd}  & 1 & 4 & 3 & 0 \\
+    % \gii{sd}  & 8 & 8 & 0 & 3 \\
+    % \bottomrule
+  % \end{tabular}
+  % \label{tab:res:serial-weights}
+% \end{table}
 
 
 \begin{figure}
@@ -182,7 +182,7 @@ The controller weights used to generate these results are summarized in \tab{res
       \input{figures/serial_ur2.tex}
     }
   % \end{subfigure}
-  \caption[Time response of serial system.]{Comparison of time responses of centralized and distributed controllers. Distributed controllers use 3 solver iterations. The disturbance applied is a closing of the downstream compressor's discharge valve from 39\% to 29\% at time \u{50}{s}.}
+    \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:serial-timeresp}
 \end{figure}
 
@@ -198,9 +198,9 @@ In contrast to the parallel case, differences in the controller response and per
 The cooperative controller response is qualitatively similar to that of the centralized controller.
 It is, however, somewhat less aggressive in its regulation of the output pressure, evidenced by its less extreme change from high to low torque in the downstream compressor and faster return to the steady-state torque value, as shown in \fig{res:serial-timeresp}.
 As a result, the output pressure of the downstream compressor has a much lower overshoot than either the centralized or non-cooperative controller.
-
-Similarly, in the upstream compressor, the cooperative controller's torque input is smoother than that of the centralized controller with no uptick near \u{70}{s}, and a faster convergence of both inputs to their steady-state values.
-Accordingly, the upstream compressor's output pressure also converges faster for the cooperative controller than for the centralized one.
+%
+% Similarly, in the upstream compressor, the cooperative controller's torque input is smoother than that of the centralized controller with no uptick near \u{70}{s}, and a faster convergence of both inputs to their steady-state values.
+% Accordingly, the upstream compressor's output pressure also converges faster for the cooperative controller than for the centralized one.
 The surge distances of the centralized and cooperative controllers, however, show an almost identical response for the downstream compressor and a similar response upstream, though that of the cooperative controller has a greater increase near \u{58}{s} (see \fig{res:serial-sd-zoom}).
 
 The non-cooperative controller response has a much different characteristic than that of the centralized controller.
@@ -242,29 +242,17 @@ The computation times for the distributed controllers assume a parallelized impl
   \resizebox{\linewidth}{!}{%
     \input{figures/computation_cost.tex}
   }
-  \caption[Controller computation time per iteration.]{Average controller computation time per iteration for centralized and distributed controllers, as a function of the number of solver iterations used. Controller performance gains for solver iterations greater than 3 are marginal. Disturbance (described above) is applied at \u{50}{s} and total simulation time is \u{500}{s}.}
+  \caption[Controller computation time per iteration.]{Average controller computation time per iteration, as a function of the number of solver iterations used. Operating point is 3 solver iterations. Output disturbance is applied at \u{50}{s} and total simulation time is \u{500}{s}.}
   \label{fig:results:compcost}
 \end{figure}
 
 
 As expected, the non-cooperative controller achieves the lowest computation times for both the parallel and the serial system.
 In both cases, the cooperative controller has a computation time approximately on par with the centralized controller, though slightly lower for few solver iterations.
-The computational cost of the cooperative controller relative to the centralized controller is dependent on the operating point: for the parallel system, for example, at the non-disturbed, initial state, a single solver iteration of the cooperative controller requires as much computation time as the centralized controller, but the cooperative controller executes faster at the disturbed operating point.
-The number of solver iterations for which the cooperative approach requires more computation time than the centralized approach is thus shifted depending on the simulation case considered.
-
 It should be noted that increasing the number of solver iterations above 3 had no measurable effect on performance.
 
 The significant advantage in computation time demonstrated by the non-cooperative controller is a result of the reduced size of its prediction matrices, which are multiplied as described in \sect{mpc} to generate the \g{qp}.
-The computational cost of the \g{qp} generation is approximately linear in the number of outputs used, and the non-cooperative approach considers fewer outputs than the centralized or cooperative approaches (see \tab{res:parallel-weights}).
+The computational cost of the \g{qp} generation is approximately linear in the number of outputs used, and the non-cooperative approach considers fewer outputs than the centralized or cooperative approaches.
 
 As described in~\cite{Jones2016}, for the systems considered here, the QP-generation step has a much higher computational cost than the QP-solving step.
-% The percentage of computation time spent on solving QPs (including the time required to update the linear QP term after each solver iteration for the distributed controllers) is shown in \fig{res:qp-compcost}.
-% The remaining time is largely dedicated to QP generation.
-% These results are implementation dependent and the computation time required for QP generation could be reduced by using a more efficient linear algebra library that that provided in \eigen{}, however it would still contribute significantly to the total computational cost.
-%
-% Using 2 or 3 solver iterations, less than 10\% of the total computation time is spent solving QPs for all control approaches. 
-There is thus a limited scope for decreasing the required computation time without decreasing the number of states used to generate the QP problem.
-% There is thus a limited scope for decreasing the required computation time without decreasing either the number of outputs or states used to generate the QP problem.
-% Furthermore, the number of outputs used for the cooperative QP is fixed and cannot be decreased, since the sub-controllers have the same cost function, and for the non-cooperative controller only 2 outputs are used so it cannot be further decreased.
-% Further gains in computational efficiency would therefore require a reduced number of states to be considered when generating the QP problem.
-
+There is thus limited scope for decreasing the required computation time without decreasing the number of states used to generate the QP problem.
