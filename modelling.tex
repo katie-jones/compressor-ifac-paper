@@ -1,7 +1,24 @@
 \label{sec:modelling}
-The controllers presented in this work were evaluated in simulation, using a model based on a two-compressor system at an ABB Research Facility. 
+The models used in this work are based on a two-compressor system at an ABB Research facility.
+% The controllers presented in this work were evaluated in simulation, using a model based on a two-compressor system at an ABB Research Facility. 
 The physical setup is described in \cite{Cortinovis2015} for a single compressor.
-Two different configurations were tested: a parallel configuration and a serial configuration, each consisting of two compressors which, for simplicity, were assumed to be identical.
+For simplicity, the two compressors in each system were assumed to be identical.
+% Two different configurations were tested: a parallel configuration and a serial configuration, each consisting of two compressors which, for simplicity, were assumed to be identical.
+
+\begin{figure}
+  % \begin{subfigure}{\linewidth}
+    \input{figures/diagram_parallel.tex}
+    {\centering a) Parallel compressor system.\\}
+  % \end{subfigure}
+  % \\
+  % \begin{subfigure}{\linewidth}
+    \input{figures/diagram_serial.tex}\\
+    {\centering b) Serial compressor system.\\}
+  % \end{subfigure}
+  \caption[Diagram of compressor systems.]{Diagram of compressor systems with inputs and states labelled.}
+  \label{fig:comp-systems-diagrams}
+\end{figure}
+
 
 The single compressor unit used in this work refers to a centrifugal compressor driven by a variable-speed electric driver, with a tank at both the inlet (suction) and outlet (discharge).
 Both the suction and discharge tanks are connected to atmospheric pressure by a valve.
@@ -18,19 +35,5 @@ In the parallel case, the two compressors' outlet tanks both discharge into a si
 This pressure also serves as an additional state while the inputs and outputs remain the same as for a single compressor.
 For the serial configuration, the upstream compressor discharges directly into the inlet of the downstream compressor.
 The states, inputs and outputs are the same as those of the individual compressors.
-
-\begin{figure}
-  % \begin{subfigure}{\linewidth}
-    \input{figures/diagram_parallel.tex}
-    {\centering a) Parallel compressor system.\\}
-  % \end{subfigure}
-  % \\
-  % \begin{subfigure}{\linewidth}
-    \input{figures/diagram_serial.tex}\\
-    {\centering b) Serial compressor system.\\}
-  % \end{subfigure}
-  \caption[Diagram of compressor systems.]{Diagram of compressor systems with inputs and states labelled.}
-  \label{fig:comp-systems-diagrams}
-\end{figure}
 
 
