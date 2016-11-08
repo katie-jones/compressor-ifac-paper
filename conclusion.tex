@@ -5,18 +5,14 @@ Two compressor networks were studied: a parallel and a serial configuration, eac
 The control scheme was based on linearized MPC using a linear model of the system updated at each time step.
 Distributed controllers using both cooperative and non-cooperative cost functions were developed.
 
-The controllers were implemented in \slink{} and in \cpp{} using the QP solver \qpoases{}.
-Both implementations were developed to be suitable for deployment on embedded hardware.
-In the \cpp{} implementation in particular, the known structure of the compressor model matrices was taken into account to reduce computation time.
-
 The performance of the distributed controllers was then evaluated in simulation and compared to the benchmark established by a centralized MPC controller.
-Both the time responses of the distributed controllers as well as their computation time were evaluated.
-For the parallel system, both cooperative and non-cooperative controllers achieved virtually identical performance to the centralized controller.
+% Both the time responses of the distributed controllers as well as their computation time were evaluated.
+For the parallel system, both cooperative and non-cooperative controllers achieved virtually identical control performance to the centralized controller.
 The cooperative controller had a 11\% higher average computation time than in the centralized case, while the non-cooperative scheme reduced the average computation time by 28\%.
 
 The serial system had different controller performances for each of the centralized, cooperative and non-cooperative controllers.
 The cooperative controller achieved very similar performance in the time response as the centralized controller, with $<1\%$ difference in both the maximum discharge pressure and minimum surge control distance in the downstream compressor.
-The non-cooperative controller also had a qualitatively similar response, however it did not perform as well in anti-surge control, allowing a 9\% decrease in the minimum surge control distance reached in the downstream compressor compared to the centralized controller.
+The non-cooperative controller also had a qualitatively similar response, however it did not perform as well in anti-surge control, with a 9\% decrease in the minimum surge control distance reached in the downstream compressor compared to the centralized controller.
 Its reduced performance in surge control was combined with improved process control: its maximum discharge pressure was 40\% lower than in the centralized case.
 Again, the non-cooperative controller outperformed the cooperative controller in terms of computation time, giving a 38\% decrease compared to the centralized case, while the cooperative controller only achieved a 1\% reduction.  
 
