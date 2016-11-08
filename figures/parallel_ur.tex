@@ -1,32 +1,32 @@
 % This file was created by matlab2tikz.
 %
-\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
-\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
-\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
-%
-\begin{tikzpicture}
+% \definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+% \definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+% \definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+% %
+% \begin{tikzpicture}
 
-\begin{axis}[%
-width=5cm,
-height=4cm,
-at={(0\linewidth,0\linewidth)},
-scale only axis,
-xmin=0,
-xmax=500,
-xlabel={Time [s]},
-xmajorgrids,
-ymin=0,
-ymax=0.07,
-ylabel={Normalized Recycle Valve Opening},
-% ylabel style={font=\tiny},
-ylabel near ticks,
-ymajorgrids,
-axis background/.style={fill=white},
-% title style={font=\tiny\bfseries},
-% title={Normalized Recycle Valve Opening},
-axis x line*=bottom,
-axis y line*=left
-]
+% \begin{axis}[%
+% width=5cm,
+% height=4cm,
+% at={(0\linewidth,0\linewidth)},
+% scale only axis,
+% xmin=0,
+% xmax=500,
+% xlabel={Time [s]},
+% xmajorgrids,
+% ymin=0,
+% ymax=0.07,
+% ylabel={Normalized Recycle Valve Opening},
+% % ylabel style={font=\tiny},
+% ylabel near ticks,
+% ymajorgrids,
+% axis background/.style={fill=white},
+% % title style={font=\tiny\bfseries},
+% % title={Normalized Recycle Valve Opening},
+% axis x line*=bottom,
+% axis y line*=left
+% ]
 \addplot [color=mycolor1,solid,line width=1.5pt,forget plot]
   table[row sep=crcr]{%
 0	6.93883000000002e-310\\
@@ -2030,7 +2030,7 @@ axis y line*=left
 499.5	0.0553852\\
 499.75	0.0553856\\
 };
-\addplot [color=mycolor2,solid,line width=1.5pt,forget plot]
+\addplot [color=mycolor2,dashed,line width=1.5pt,forget plot]
   table[row sep=crcr]{%
 0	6.91844e-310\\
 0.25	6.91844e-310\\
@@ -4033,7 +4033,7 @@ axis y line*=left
 499.5	0.0553629\\
 499.75	0.0553633\\
 };
-\addplot [color=mycolor3,solid,line width=1.5pt,forget plot]
+\addplot [color=mycolor3,dotted,line width=1.5pt,forget plot]
   table[row sep=crcr]{%
 0	6.92442000000001e-310\\
 0.25	6.92442000000001e-310\\
@@ -6036,5 +6036,5 @@ axis y line*=left
 499.5	0.0553749\\
 499.75	0.0553753\\
 };
-\end{axis}
-\end{tikzpicture}%
+% \end{axis}
+% \end{tikzpicture}%

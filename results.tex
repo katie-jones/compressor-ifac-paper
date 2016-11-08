@@ -18,22 +18,10 @@ The responses obtained using each of the three controllers are virtually identic
 
 \begin{figure}
   {\centering\small\textbf{Parallel System}\\Both Compressors\\[0.5em]}
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/parallel_p.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/parallel_sd.tex}
-    }
-  \\
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/parallel_td.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/parallel_ur.tex}
-    }
-    \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
+  \resizebox{\linewidth}{!}{%
+    \input{figures/parallel_all.tex}
+  }
+  \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:parallel-timeresp}
 \end{figure}
 
@@ -74,38 +62,44 @@ A zoomed view of the initial surge distance response is shown in \fig{res:serial
 
 \begin{figure}
   {\centering\small\textbf{Serial System}\\Upstream Compressor\\[0.5em]}
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_p1.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_sd1.tex}
-    }
-  \\
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_td1.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_ur1.tex}
-    }
+  \resizebox{\linewidth}{!}{%
+    \input{figures/serial_all1.tex}
+  }
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_p1.tex}
+    % }
+  % \hfill
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_sd1.tex}
+    % }
+  % \\
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_td1.tex}
+    % }
+  % \hfill
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_ur1.tex}
+    % }
 
   {\centering\small\textbf{Serial System}\\Downstream Compressor\\[0.5em]}
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_p2.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_sd2.tex}
-    }
-  \\
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_td2.tex}
-    }
-  \hfill
-    \resizebox{0.48\linewidth}{!}{%
-      \input{figures/serial_ur2.tex}
-    }
+  \resizebox{\linewidth}{!}{%
+    \input{figures/serial_all2.tex}
+  }
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_p2.tex}
+    % }
+  % \hfill
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_sd2.tex}
+    % }
+  % \\
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_td2.tex}
+    % }
+  % \hfill
+    % \resizebox{0.48\linewidth}{!}{%
+      % \input{figures/serial_ur2.tex}
+    % }
     \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:serial-timeresp}
 \end{figure}

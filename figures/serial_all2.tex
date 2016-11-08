@@ -1,0 +1,100 @@
+\definecolor{mycolor1}{rgb}{0.00000,0.44700,0.74100}%
+\definecolor{mycolor2}{rgb}{0.85000,0.32500,0.09800}%
+\definecolor{mycolor3}{rgb}{0.92900,0.69400,0.12500}%
+%
+\begin{tikzpicture}
+
+\begin{axis}[%
+width=5cm,
+height=4cm,
+at={(0\linewidth,0\linewidth)},
+scale only axis,
+xmin=0,
+xmax=320,
+xlabel={Time [s]},
+xmajorgrids,
+ymin=1.15,
+ymax=1.4,
+ylabel={Tank Output Pressure [atm]},
+ylabel style={yshift=-0.1cm},
+ymajorgrids,
+axis background/.style={fill=white},
+% title style={font=\bfseries},
+% title={Tank Output Pressure},
+axis x line*=bottom,
+axis y line*=left,
+legend style={legend cell align=left,align=left,draw=white!15!black}
+]
+\input{figures/serial_p2.tex}
+\end{axis}
+
+\begin{axis}[%
+width=5cm,
+height=4cm,
+at={(7cm,0cm)},
+scale only axis,
+xmin=0,
+xmax=320,
+xlabel={Time [s]},
+xmajorgrids,
+ymin=-6,
+ymax=1,
+ylabel={Relative Surge Control Distance [\%]},
+ylabel style={yshift=-0.1cm},
+ymajorgrids,
+axis background/.style={fill=white},
+% title style={font=\bfseries},
+% title={Surge Control Distance},
+axis x line*=bottom,
+axis y line*=left
+]
+\input{figures/serial_sd2.tex}
+\end{axis}
+
+
+\begin{axis}[%
+width=5cm,
+height=4cm,
+at={(0cm,6cm)},
+scale only axis,
+xmin=0,
+xmax=320,
+xlabel={Time [s]},
+xmajorgrids,
+ymin=0,
+ymax=0.7,
+ylabel={Normalized Torque Setting},
+ylabel style={yshift=-0.1cm},
+ymajorgrids,
+axis background/.style={fill=white},
+% title style={font=\bfseries},
+% title={Normalized Torque Setting},
+axis x line*=bottom,
+axis y line*=left
+]
+\input{figures/serial_td2.tex}
+\end{axis}
+
+\begin{axis}[%
+width=5cm,
+height=4cm,
+at={(7cm,6cm)},
+scale only axis,
+xmin=0,
+xmax=320,
+xlabel={Time [s]},
+xmajorgrids,
+ymin=0,
+ymax=0.06,
+ylabel={Normalized Recycle Valve Opening},
+ylabel style={yshift=-0.1cm},
+ymajorgrids,
+axis background/.style={fill=white},
+% title style={font=\bfseries},
+% title={Normalized Recycle Valve Opening},
+axis x line*=bottom,
+axis y line*=left
+]
+\input{figures/serial_ur2.tex}
+\end{axis}
+\end{tikzpicture}
