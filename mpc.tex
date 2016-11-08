@@ -1,95 +1,104 @@
 \label{sec:mpc}
 Two variants of MPC are considered in this work: centralized and distributed control.
-Centralized control is considered too computationally expensive to implement in practice, necessitating the development of more efficient distributed controllers, but it is used as a benchmark to evaluate the performance of the distributed controllers.
-The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, a linearized approach is taken in this work whereby the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization. 
+Centralized control is considered too computationally expensive to implement in practice, but it is used as a benchmark to evaluate the performance of the distributed controllers.
+The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
 In order to control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
 The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
 No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
 
+
 The nonlinear model is linearized at each sampling instant about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
-At sampling instant $k$ it is thus given by:
+The resulting discrete-time, linear system is then augmented to include both error states as integrators for offset-free control, and delayed input states for the recycle valve.
+One integrator for each output is added, as well as 40 delayed states per compressor (giving a total delay of \u{2}{s}).
+The interested reader may refer to \cite{Jones2016} for a detailed development of the augmented state equations.
+
+
+Based on the linearized, augmented model, the optimization problem solved at each time step is defined as follows:
 
 \begin{equation}
   \begin{split}
-    \gi{Delta} \gpio{xhat} & = \gi{sys-mats} \gi{Delta}\gpi{xhat} + \gii{sys-mats} \gi{Delta}\gpi{ucurr} + \g{fcurr}\left( \g{xhat}, \gmo{ucurr} \right)\\
-    \gi{Delta} \gpi{ycurr} & = \giii{sys-mats} \gi{Delta} \gpi{xhat}, \qquad i\geq 0\\
+    \g{Uk} & = \argmin_{U}\ \gi{Delta} \tps{U}\ \gi{weights}\ \gi{Delta} U \\
+    &\quad + \tps{\left( \gi{Delta}Y - \gi{Delta}\g{Yrefk} \right)} \gii{weights} \left( \gi{Delta}Y - \gi{Delta}\g{Yrefk} \right)\\
+    \text{s.t. } & \gi{Delta} U\ut{min} \leq \gi{Delta} U \leq \gi{Delta} U\ut{max}\\
+    & \gi{Delta} U\ut{r,min} \leq A\ut{rate} \gi{Delta} U \leq \gi{Delta} U\ut{r,max}\\
+    & \gi{Yk} = \gi{prediction-matrices} \gi{Delta} \g{Uk} + \gii{prediction-matrices} \g{xaug} + \giii{prediction-matrices} \g{fcurr}\text{,}
   \end{split}
 \end{equation}
 
-\noindent where \g{fcurr} is the derivative of the system evaluated at the linearization point, \g{xhat} is the state estimate at time instant $k$, \giv{sys-mats}\glsadd{sys-mats} give the model linearized about the current operating point, and \g{Delta} refers to the difference in $\left( \cdot \right)$ relative to the linearization point.
+\noindent where:
 
-The resulting discrete-time, linear system is then augmented to include both error states as integrators for offset-free control, and delayed input states for the recycle valve.
-One integrator for each output is added, as well as 40 delayed states per compressor (multiplied by a sampling rate of \u{50}{ms} to give a total delay of \u{2}{s}).
-With these additions, the augmented state of the system (\g{xaug}) is given by:
+\begin{itemize}
+  \item \g{Uk} contains the optimal input sequence at time step $k$, stacked along the move horizon $m$;
+  \item \g{Yk} contains the output sequence resulting from the input sequence \g{Uk} at time step $k$, stacked along the prediction horizon $p$;
+  \item \g{Yrefk} is the reference output sequence;
+  \item \giii{weights} are the weighting matrices used for the inputs and outputs, respectively;
+  \item \giv{prediction-matrices} are the prediction matrices giving the contribution to \gi{Yk} of \gi{Delta}\g{Uk}, \g{xaug} and \g{fcurr} respectively;
+  \item $\gi{Delta} U\ut{min}$, $\gi{Delta} U\ut{max}$, $\gi{Delta} U\ut{r,min}$ $\gi{Delta} U\ut{r,max}$ contain the input bounds and rate constraints; and
+  \item $A\ut{rate}$ is a matrix that is multiplied by \gi{Uk} to obtain the changes in inputs between two successive time steps.
+\end{itemize}
 
+The optimization is then converted to a dense formulation by eliminating the dependence on \gi{Delta}\g{Yk} through the equality constraint, and expressed as a QP problem with Hessian and linear terms dependent on the type of controller used.
+
+The prediction horizon $p$ used was 100, giving a prediction of \u{5}{s} determined to be sufficient to capture the relevant compressor dynamics.
+To decrease the aggressiveness of the controller as well as the QP complexity, a lower move horizon $m$ of 2 was used.
+
+The input constraints are determined by combining limits on both the range of the inputs and on their rate of change.
+The recycle valve has a range of 0--1 with rate constraints (maximum possible change over a single sampling period) of +1/-0.1.
+The rate is more constrained in the negative direction (i.e. when closing) to prevent a transient re-entry into surge.
+The torque input has a normalized range of $\pm 0.3$ compared to its steady-state value, with rate constraints of $\pm 0.1$.
+
+\subsection{Centralized MPC}
+
+In the centralized control approach, a single MPC controller is used to optimize for all system inputs using a single cost function with quadratic weights on inputs and outputs.
+At each sampling period, the optimal input is computed using the following algorithm:
+
+\begin{enumerate}
+  \item perform estimation to obtain the current estimate of the augmented state vector;
+  \item linearize, discretize and augment non-linear model about the current state estimate and previous inputs;
+  \item generate the prediction matrices using the augmented state equations;
+  \item set up the QP problem and solve using the \qpoases{} solver;
+  \item apply the optimal input at the first prediction interval to the system.
+\end{enumerate}
+
+The QP formulation for the centralized controller is given by:
 \begin{equation}
-  \g{xaug} =
-  \begin{bmatrix}
-    \gi{Delta} \g{xhat}\\
-    \g{udel}\\
-    \g{integrator}
-  \end{bmatrix},
-  \qquad
-  \g{udel} = \tps{\begin{bmatrix} u_{\text{r},k-n\ut{del}+1} & \cdots & u_{\text{r},k-1} & u_{\text{r},k} \end{bmatrix}}
-%
-  \label{eq:mpc:xaug}
+  \begin{split}
+    H & = 2\left( \gi{weights} + \tps{\gi{prediction-matrices}}\ \gii{weights}\ \gi{prediction-matrices} \right)\\
+    g & = 2\left( \g{xaug} \tps{\gii{prediction-matrices}} + \g{fcurr} \tps{\giii{prediction-matrices}} - \gi{Delta} \g{Yrefk} \right)\gii{weights} \gi{prediction-matrices}.\\
+  \end{split}
+  \label{eq:mpc:optimization-qp-terms}
 \end{equation}
 
-\noindent where 
-\g{xhat} contains the original states of the system, 
-\g{udel} contains the delayed recycle valve inputs from the earliest to most recent,
-$n\ut{del}$ is the total number of delayed states and
-\g{integrator} contains the integrator states.
+The centralized controller assigns weights to each input and controlled output.
+For the parallel system, the controlled outputs are the surge distances of both compressors as well as the pressure of the common tank.
+A fourth output could be added to account for load sharing, but was not considered in this work since the compressors were assumed to be identical.
+For the serial system, the controlled outputs are the surge distances and output pressures of both compressors.
 
 
-The augmented system dynamics are then as follows:
+\subsection{Distributed MPC}
 
-\begin{align}
-  \begin{split}
-    \label{eq:mpc:augmented-state-eqs}
-    \gpio{xaug} ={}& 
-    \ubrace{\begin{bmatrix}
-      \ga{sys-mats} & \begin{bmatrix} \g{Bdelay} & 0\end{bmatrix} & 0 \\[0.5em]
-      0 & \begin{bmatrix} 0 & \g{Adelay} \end{bmatrix} & 0\\[0.5em]
-      0 & 0 & I_{n\ut{e}\times n\ut{e}}
-    \end{bmatrix}}{\ga{augsys-mats}}
-    \left( \gpi{xaug} - 
-    \begin{bmatrix}
-      0\\
-      \begin{bmatrix}
-        u_{\text{r},k-1}\\
-        0\\
-      \end{bmatrix}\\
-      0
-    \end{bmatrix}
-    \right)\\
-    & + 
-    \ubrace{\begin{bmatrix}
-      \g{Bnodelay}\\
-      \g{Baug}\\
-      0
-    \end{bmatrix}}{\gb{augsys-mats}}
-    \ubrace{\begin{bmatrix}
-      u_{\text{r},k+i}\\
-      \Delta T_{\text{d},k+i}
-    \end{bmatrix}}{\gpi{deltau}}
-    + \begin{bmatrix}
-      \g{fcurr}\\ 0 \\ 0
-    \end{bmatrix}
-  \end{split}\\
-% y
-  \gi{Delta} \g{ycurr} ={}& \ubrace{\begin{bmatrix}
-    \gc{sys-mats} & 0 & I_{n\ut{e} \times n\ut{e}}
-  \end{bmatrix}}{\gc{augsys-mats}}
-  \g{xaug}
-  \label{eq:mpc:augmented-output-eqs}
-\end{align}
+In the distributed MPC approach, the control problem is split into two smaller optimizations, each giving the optimal input for a single compressor.
+The two sub-controllers are assumed to have full state information and the optimizations are set up as QPs, as for the centralized controller, with an identical Hessian ($H$) term.
+A slight modification to the linear term is necessary to account for the fact that the QP is solved for only part of the optimal input vector:
 
+\begin{equation}
+    g\ut{distributed} = g\ut{centralized} + \gi{Uother}\ \tps{\g{prediction-uother}} \gii{weights}\ \gi{prediction-matrices}\\
+  \label{eq:mpc:distributed-qp-terms}
+\end{equation}
 
-\noindent where
-$n\ut{e}$ gives the number of integrator states,
-and \giv{augsys-mats}\glsadd{augsys-mats} give the augmented, linearized model of the system.
+\noindent where \g{Uother} is the optimal input calculated by the other sub-controller, and \g{prediction-uother} is the prediction matrix giving the effect of the other sub-controller's inputs on the current outputs \gi{Yk}.
 
-The first component of \gpi{udel}  is multiplied by \g{Bdelay}, and must therefore be corrected by a factor $u_{\text{r},k-1}$, the value about which the system was linearized. 
-The other components of \gpi{udel} are not corrected because they are only multiplied by \g{Adelay} which simply shifts them up a row.
+This QP is unsolvable since \g{Uother} in turn depends on its solution.
+To break this circular dependency, the problem is initially solved with an estimate for \g{Uother} obtained from the previous QP solution.
+The sub-controllers then exchange their obtained solutions and re-solve the optimization.
+This procedure is repeated for a fixed number of iterations.%
+\footnote{The iteration process may not converge for systems that have a high degree of coupling; this effect is discussed in further detail in \cite{Stewart2010}.}
+
+The algorithm used to obtain the optimal input at each time step for a distributed controller is thus the same as for the centralized controller, with the exception that the QP is solved iteratively with information exchange between the controllers.
+The number of solver iterations used in this work was fixed at 3, based on an analysis of the cost function evolution as a function of solver iterations, which improves only marginally after 3 iterations.
+The details of this analysis are presented in \cite{Jones2016}.
+
+The cost functions used by the dMPC controllers apply weights to only a subset of the inputs and outputs.
+For the cooperative controllers, all sub-controllers have equal weights on all outputs, but only have weights applied to the inputs of their corresponding compressor.
+For the non-cooperative controllers, the sub-controllers have non-zero weights on the inputs and outputs of their compressor.
 
