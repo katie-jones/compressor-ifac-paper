@@ -1,15 +1,17 @@
 \label{sec:mpc}
 Two variants of MPC are considered in this work: centralized and distributed control.
 Centralized control is considered too computationally expensive to implement in practice, but it is used as a benchmark to evaluate the performance of the distributed controllers.
-The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
-In order to control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
+
+In order to take advantage of efficient QP solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
+% The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
+To control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
 The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
 No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
 
 
 The nonlinear model is linearized at each sampling instant about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
-The resulting discrete-time, linear system is then augmented to include both error states as integrators for offset-free control, and delayed input states for the recycle valve.
-One integrator for each output is added, as well as 40 delayed states per compressor (giving a total delay of \u{2}{s}).
+The resulting discrete-time, linear system is then augmented to include both integrators (one per output) for offset-free control, and delayed input states for the recycle valve.
+40 delayed states per compressor are added (giving a total delay of \u{2}{s}).
 The interested reader may refer to \cite{Jones2016} for a detailed development of the augmented state equations.
 
 
@@ -49,14 +51,14 @@ The torque input has a normalized range of $\pm 0.3$ compared to its steady-stat
 
 \subsection{Centralized MPC}
 
-In the centralized control approach, a single MPC controller is used to optimize for all system inputs using a single cost function with quadratic weights on inputs and outputs.
+In the centralized control approach, a single MPC controller is used to optimize for all system inputs using a cost function with quadratic weights on inputs and outputs.
 At each sampling period, the optimal input is computed using the following algorithm:
 
 \begin{enumerate}
   \item perform estimation to obtain the current estimate of the augmented state vector;
   \item linearize, discretize and augment non-linear model about the current state estimate and previous inputs;
   \item generate the prediction matrices using the augmented state equations;
-  \item set up the QP problem and solve using the \qpoases{} solver;
+  \item set up and solve the QP problem;
   \item apply the optimal input at the first prediction interval to the system.
 \end{enumerate}
 

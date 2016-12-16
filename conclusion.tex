@@ -2,13 +2,12 @@
 
 In this work, the development of a distributed model predictive control scheme combining process and anti-surge control for systems of compressors was presented.
 Two compressor networks were studied: a parallel and a serial configuration, each with two compressors.
-The control scheme was based on linearized MPC using a linear model of the system updated at each time step.
+% The control scheme was based on linearized MPC using a linear model of the system updated at each time step.
 Distributed controllers using both cooperative and non-cooperative cost functions were developed.
 
 The performance of the distributed controllers was then evaluated in simulation and compared to the benchmark established by a centralized MPC controller.
-% Both the time responses of the distributed controllers as well as their computation time were evaluated.
 For the parallel system, both cooperative and non-cooperative controllers achieved virtually identical control performance to the centralized controller.
-The cooperative controller had a 11\% higher average computation time than in the centralized case, while the non-cooperative scheme reduced the average computation time by 28\%.
+The cooperative controller had a 11\% higher average computation time than in the centralized case, while the non-cooperative controller reduced it by 28\%.
 
 The serial system had different controller performances for each of the centralized, cooperative and non-cooperative controllers.
 The cooperative controller achieved very similar performance in the time response as the centralized controller, with $<1\%$ difference in both the maximum discharge pressure and minimum surge control distance in the downstream compressor.

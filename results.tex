@@ -14,6 +14,7 @@ As discussed in \cite{Jones2016}, this number was determined sufficient for conv
 \subsection{Parallel System Control Performance}
 The time response of each controller for the parallel system is shown in \fig{res:parallel-timeresp}.
 The responses obtained using each of the three controllers are virtually identical -- in this case, using a distributed control approach has no performance penalty and a potential decrease in computational cost (see below).
+The main reason for this result is the very low degree of coupling between the two parallel compressors.
 
 
 \begin{figure}
@@ -21,7 +22,7 @@ The responses obtained using each of the three controllers are virtually identic
   \resizebox{\linewidth}{!}{%
     \input{figures/parallel_all.tex}
   }
-  \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
+  \caption[Time response of parallel system.]{Comparison of parallel system time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:parallel-timeresp}
 \end{figure}
 
@@ -30,7 +31,7 @@ The responses obtained using each of the three controllers are virtually identic
   \resizebox{0.5\linewidth}{!}{%
     \input{figures/parallel_sd_zoom.tex}
   }
-  \caption[Zoomed view of surge distance time response of parallel system.]{Zoomed view of surge distance time response given in \fig{res:parallel-timeresp}.}
+  \caption[Zoomed view of surge distance time response of parallel system.]{Zoomed view of parallel system surge distance time response given in \fig{res:parallel-timeresp}.}
   \label{fig:res:parallel-sd-zoom}
 \end{figure}
 
@@ -65,42 +66,12 @@ A zoomed view of the initial surge distance response is shown in \fig{res:serial
   \resizebox{\linewidth}{!}{%
     \input{figures/serial_all1.tex}
   }
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_p1.tex}
-    % }
-  % \hfill
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_sd1.tex}
-    % }
-  % \\
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_td1.tex}
-    % }
-  % \hfill
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_ur1.tex}
-    % }
 
   {\centering\small\textbf{Serial System}\\Downstream Compressor\\[0.5em]}
   \resizebox{\linewidth}{!}{%
     \input{figures/serial_all2.tex}
   }
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_p2.tex}
-    % }
-  % \hfill
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_sd2.tex}
-    % }
-  % \\
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_td2.tex}
-    % }
-  % \hfill
-    % \resizebox{0.48\linewidth}{!}{%
-      % \input{figures/serial_ur2.tex}
-    % }
-    \caption[Time response of parallel system.]{Comparison of time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
+    \caption[Time response of serial system.]{Comparison of serial system time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
   \label{fig:res:serial-timeresp}
 \end{figure}
 
@@ -108,7 +79,7 @@ A zoomed view of the initial surge distance response is shown in \fig{res:serial
   \resizebox{\linewidth}{!}{%
     \input{figures/serial_sd1_zoom.tex}
   }
-  \caption[Zoomed view of surge distance time response of serial system.]{Zoomed view of surge distance time response given in \fig{res:serial-timeresp}.}
+  \caption[Zoomed view of surge distance time response of serial system.]{Zoomed view of serial system surge distance time response given in \fig{res:serial-timeresp}.}
   \label{fig:res:serial-sd-zoom}
 \end{figure}
 
@@ -119,8 +90,9 @@ As a result, the output pressure of the downstream compressor has a much lower o
 The surge distances of the centralized and cooperative controllers, however, show an almost identical response for the downstream compressor and a similar response upstream, though that of the cooperative controller has a greater increase near \u{58}{s} (see \fig{res:serial-sd-zoom}).
 
 The non-cooperative controller response has a much different characteristic than that of the centralized controller.
-There is no significant initial increase in the torque input to either compressor when the disturbance is applied; as a result, both compressors are pushed further towards surge than in the centralized or cooperative case, and the surge distances are also slower to converge.
+There is no significant initial increase in the torque input to either compressor when the disturbance is applied; as a result, both compressors are pushed further towards surge than in the centralized case, and the surge distances are also slower to converge.
 The maximum disturbance to the output pressures of both compressors for the non-cooperative controller is accordingly reduced by approximately 40\% when compared to the centralized case.
+The reason for the difference in performance is the much higher degree of coupling between the serial compressors as compared to the parallel case.
 
 The integral squared error (ISE) and integral absolute error (IAE) are shown in \tab{res:performance:ser-ise} for all controllers.
 

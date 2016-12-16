@@ -5,24 +5,25 @@ Compressor control systems must therefore maintain the compressor's operating po
 The most relevant of these instabilities for control is surge, a phenomenon that occurs when the pressure ratio across the compressor is too high for the mass flow, leading to oscillations in mass flow and output pressure, as well as vibrations and an increase in temperature.
 Surge can cause permanent damage to machinery in a relatively short time span and it is imperative for industrial compressor control systems to avoid it.
 
-Compressor control thus consists of two sometimes competing goals: process control, wherein a variable (e.g. output pressure) is maintained at a reference value, and anti-surge control (ASC), which keeps the compressor out of the surge regime.
+Compressor control thus consists of two sometimes competing goals: process control, wherein a variable (e.g. output pressure) is maintained at a reference value, and anti-surge control (ASC), which protects the compressor out against surge conditions.
 The performance of a compressor's anti-surge controller (ASC) is relevant for its efficiency: the most efficient operating points often lie on or near the surge line bounding the unstable surge regime.
-Controllers that allow the compressor to be operated closer to surge thus lead directly to an increase in the attainable efficiency.
+Controllers that allow the compressor to be operated closer to surge thus lead directly to an increase in the attainable efficiency \cite{Cortinovis2014}.
 % An increase in the performance of the ASC thus leads directly to an increase in the attainable efficiency for a given system as the compressor can be operated nearer to the surge line.
 
 The current state-of-the-art in compressor control uses two independent controllers for process control and ASC.
 The process controller operates by manipulating the speed of the gas turbine or electric driver driving the compressor, while the ASC keeps the compressor away from surge by manipulating the position of a recycle valve.
 This valve can be opened to allow flow from the outlet back to the inlet, effectively increasing the mass flow of the compressor and decreasing its pressure ratio, moving the system away from surge.
-These controllers are currently implemented using simple PID controllers, with added loop decoupling and hand-tuned open-loop control responses near boundaries to address nonlinearities and control interactions.
+These controllers are typically implemented using simple PI or PID controllers, with added loop decoupling and hand-tuned open-loop control responses near boundaries to address nonlinearities and control interactions.
 Constraints are generally treated using clipping and anti-windup logic, which require further tuning.
 
 Such a decoupled approach is necessary when considering gas turbine-powered compressors, as the dynamics of the turbine are much slower than those that lead to compressor surge. 
-The transition of compressor control from gas turbines to electric drivers with faster torque responses has, however, opened the door for new, multivariable control algorithms that combine process control and ASC into a single controller.
+The transition of compressor control from gas turbines to electric drivers with faster torque responses has, however, opened the door for new, multivariable control algorithms that exploit these faster reaction times.
 Such a multivariable controller can take advantage of the quick response of electric driver torque compared to the recycle valve opening to decrease the response time of the ASC to disturbances, thereby increasing its performance.
 
 In recent years, model predictive control (MPC) has been proposed as an alternative to frequency-domain approaches as it can explicitly consider both the coupling and physical constraints that make compressor control so challenging.
 Cortinovis et al. showed that combined process and ASC using MPC led to a reduced distance to surge and a reduced settling time for process control in a centrifugal compressor in experiments compared to the current state-of-the-art \cite{Cortinovis2015}. 
 Similarly, Budinis and Thornhill found that a combined process/ASC MPC controller better handled disturbances and changes in load pattern compared to a PID controller in simulation \cite{Budinis2015}.
+In \cite{Mercangoz2016} MPC was used to decouple control interactions between process and anti-surge controllers.
 Bentaleb et al. also demonstrated that an MPC controller manipulating driver speed and the inlet guide vanes could achieve better process performance than a PID controller manipulating only the driver speed \cite{Bentaleb2014}.
 This result was extended by Bentaleb to include the use of a recycle valve to combine process and anti-surge control \cite{Bentaleb2015}.
 
