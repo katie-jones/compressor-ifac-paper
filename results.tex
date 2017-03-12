@@ -125,6 +125,8 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 The computational cost of the centralized and distributed control approaches was evaluated and is presented in \fig{results:compcost}.%
 \footnote{Tests run on a Intel\textregistered{} Core\texttrademark{} i5-540M \u{2.53}{\giga\hertz} processor.} 
 The computation times for the distributed controllers assume a parallelized implementation where each sub-controller is executed using a separate processor. 
+It should be noted that the processor used is from a standard laptop, and has a much higher clock rate than typical processors used in embedded controllers.
+The results should therefore be interpreted as a relative indicator of the computation time for each control approach and not as an indicator of absolute computation times that would be achieved in practice.
 
 \begin{figure}
   \resizebox{\linewidth}{!}{%
