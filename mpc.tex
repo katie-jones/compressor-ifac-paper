@@ -42,7 +42,7 @@ Based on the linearized, augmented model, the optimization problem solved at eac
 The optimization is then converted to a dense formulation by eliminating the dependence on \gi{Delta}\g{Yk} through the equality constraint, and expressed as a QP problem with Hessian and linear terms dependent on the type of controller used.
 
 The prediction horizon $p$ used was 100, giving a prediction of \u{5}{s} determined to be sufficient to capture the relevant compressor dynamics.
-To decrease the aggressiveness of the controller as well as the QP complexity, a lower move horizon $m$ of 2 was used.
+To decrease the aggressiveness of the controller as well as the QP complexity, a lower move (control) horizon $m$ of 2 was used.
 
 The input constraints are determined by combining limits on both the range of the inputs and on their rate of change.
 The recycle valve has a range of 0--1 with rate constraints (maximum possible change over a single sampling period) of +1/-0.1.
