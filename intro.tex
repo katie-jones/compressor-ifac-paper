@@ -33,12 +33,10 @@ In such systems, as the number of states and inputs increase so does the require
 
 In this article a distributed MPC (dMPC) control approach is proposed, which overcomes this limitation by dividing the optimization problem posed by a multi-compressor system into sub-problems to be solved at the individual compressor level.
 These sub-problems can be solved in parallel, reducing the required sample time as compared to a centralized MPC solution.
-% Some information exchange between the compressors occurs and the sub-problems are solved interatively to allow the system to converge towards an optimal solution, though global optimality is not guaranteed.
-Two variants of dMPC are considered, that differ in their formulation of the cost functions to be optimized.
-In cooperative dMPC, the cost functions used by the sub-controllers are identical, and assign weight to all outputs of the system.
-In non-cooperative dMPC, the cost functions are unique to each sub-controller, and, in this case, assign no weight to the outputs of other compressors in the system.
+DMPC has received significant attention in the control community and a range of different methods have been proposed for network and communication system configuration (see \cite{Camponogara2002, Venkat2007}).
+Adopting the terminology in \cite{Scattolini2009}, these methods can be classified according to the information exchange into non-iterative and iterative algorithms and the type of objective into cooperative and non-cooperative algorithms, as in \cite{Zeilinger2013}.
 
 The use of dMPC implies a loss of performance compared to a traditional, centralized MPC controller.
-This loss -- in particular for ASC performance -- are examined for both the cooperative and non-cooperative control approaches.
+This loss -- in particular for ASC performance -- are examined for both an iterative cooperative and an iterative non-cooperative dMPC method.
 In addition to the controller performance, the computational efficiency of each control approach is evaluated.
 Two compressor systems are considered as test cases to evaluate the performance of the dMPC approach in simulation: a parallel and a serial configuration, each with two compressors.
