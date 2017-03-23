@@ -2,12 +2,10 @@
 Two variants of MPC are considered in this work: centralized and distributed control.
 Centralized control is considered too computationally expensive to implement in practice, but it is used as a benchmark to evaluate the performance of the distributed controllers.
 
-In order to take advantage of efficient QP solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
-% The system considered is non-linear, however, in order to take advantage of efficient \g{qp} solvers, the non-linear system is re-linearized at each time step and the resulting linear model used to generate the optimization.
+In order to take advantage of efficient QP solvers, the non-linear system is re-linearized at each time step and the resulting model used in the optimization.
 To control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
 The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
 No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
-
 
 The nonlinear model is linearized at each sampling instant about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
 The resulting discrete-time, linear system is then augmented to include both integrators (one per output) for offset-free control, and delayed input states for the recycle valve.
