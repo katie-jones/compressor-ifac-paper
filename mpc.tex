@@ -7,14 +7,14 @@ To control the relatively fast dynamics leading to compressor surge, the control
 The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
 No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
 
-The nonlinear model is linearized at each sampling instant about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
+The nonlinear model is linearized at each time step about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
 The resulting discrete-time, linear system is then augmented to include both integrators (one per output) for offset-free control, and delayed input states for the recycle valve.
 40 delayed states per compressor are added (giving a total delay of \u{2}{s}).
 The interested reader may refer to \cite{Jones2016} for a detailed development of the augmented state equations.
 
 
 Based on the linearized, augmented model, the optimization problem solved at each time step is defined as follows:
-
+%
 \begin{equation}
   \begin{split}
     \g{Uk} & = \argmin_{U}\ \gi{Delta} \tps{U}\ \gi{weights}\ \gi{Delta} U \\
@@ -24,17 +24,17 @@ Based on the linearized, augmented model, the optimization problem solved at eac
     & \gi{Yk} = \gi{prediction-matrices} \gi{Delta} \g{Uk} + \gii{prediction-matrices} \g{xaug} + \giii{prediction-matrices} \g{fcurr}\text{,}
   \end{split}
 \end{equation}
-
+%
 \noindent where:
 
 \begin{itemize}
-  \item \g{Uk} contains the optimal input sequence at time step $k$, stacked along the move horizon $m$;
+  \item \g{Uk} contains the optimal input sequence at time step $k$, stacked along the control horizon $m$;
   \item \g{Yk} contains the output sequence resulting from the input sequence \g{Uk} at time step $k$, stacked along the prediction horizon $p$;
   \item \g{Yrefk} is the reference output sequence;
   \item \giii{weights} are the weighting matrices used for the inputs and outputs, respectively;
   \item \giv{prediction-matrices} are the prediction matrices giving the contribution to \gi{Yk} of \gi{Delta}\g{Uk}, \g{xaug} and \g{fcurr} respectively;
-  \item $\gi{Delta} U\ut{min}$, $\gi{Delta} U\ut{max}$, $\gi{Delta} U\ut{r,min}$ $\gi{Delta} U\ut{r,max}$ contain the input bounds and rate constraints; and
-  \item $A\ut{rate}$ is a matrix that is multiplied by \gi{Uk} to obtain the changes in inputs between two successive time steps.
+  \item $\gi{Delta} U\ut{min}$, $\gi{Delta} U\ut{max}$, $\gi{Delta} U\ut{r,min}$ and $\gi{Delta} U\ut{r,max}$ contain the input bounds and rate constraints; and
+  \item $A\ut{rate}$ is the matrix multiplied by \gi{Uk} to obtain the changes in inputs between two successive time steps.
 \end{itemize}
 
 The optimization is then converted to a dense formulation by eliminating the dependence on \gi{Delta}\g{Yk} through the equality constraint, and expressed as a QP problem with Hessian and linear terms dependent on the type of controller used.
@@ -47,7 +47,7 @@ The recycle valve has a range of 0--1 with rate constraints (maximum possible ch
 The rate is more constrained in the negative direction (i.e. when closing) to prevent a transient re-entry into surge.
 The torque input has a normalized range of $\pm 0.3$ compared to its steady-state value, with rate constraints of $\pm 0.1$.
 
-\subsection{Centralized MPC}
+\mysubsec{Centralized MPC}
 
 In the centralized control approach, a single MPC controller is used to optimize for all system inputs using a cost function with quadratic weights on inputs and outputs.
 At each sampling period, the optimal input is computed using the following algorithm:
@@ -60,7 +60,7 @@ At each sampling period, the optimal input is computed using the following algor
   \item apply the optimal input at the first prediction interval to the system.
 \end{enumerate}
 
-The QP formulation for the centralized controller is given by:
+The QP formulation for the centralized controller is:
 \begin{equation}
   \begin{split}
     H & = 2\left( \gi{weights} + \tps{\gi{prediction-matrices}}\ \gii{weights}\ \gi{prediction-matrices} \right)\\
@@ -75,24 +75,23 @@ A fourth output could be added to account for load sharing, but was not consider
 For the serial system, the controlled outputs are the surge distances and output pressures of both compressors.
 
 
-\subsection{Distributed MPC}
+\mysubsec{Distributed MPC}
 
 In the distributed MPC approach, the control problem is split into two smaller optimizations, each giving the optimal input for a single compressor.
 The two sub-controllers are assumed to have full state information and the optimizations are set up as QPs, as for the centralized controller, with an identical Hessian ($H$) term.
 A slight modification to the linear term is necessary to account for the fact that the QP is solved for only part of the optimal input vector:
-
 \begin{equation}
     g\ut{distributed} = g\ut{centralized} + \gi{Uother}\ \tps{\g{prediction-uother}} \gii{weights}\ \gi{prediction-matrices}\\
   \label{eq:mpc:distributed-qp-terms}
 \end{equation}
 
-\noindent where \g{Uother} is the optimal input calculated by the other sub-controller, and \g{prediction-uother} is the prediction matrix giving the effect of the other sub-controller's inputs on the current outputs \gi{Yk}.
+\noindent where \g{Uother} is the optimal input given by the other sub-controller and \g{prediction-uother} is the prediction matrix mapping the other sub-controller's inputs to the current outputs \gi{Yk}.
 
 This QP is unsolvable since \g{Uother} in turn depends on its solution.
 To break this circular dependency, the problem is initially solved with an estimate for \g{Uother} obtained from the previous QP solution.
-The sub-controllers then exchange their obtained solutions and re-solve the optimization.
+The sub-controllers then exchange their solutions and re-solve the optimization.
 This procedure is repeated for a fixed number of iterations.%
-\footnote{The iteration process may not converge for systems that have a high degree of coupling; this effect is discussed in further detail in \cite{Stewart2010}.}
+\footnote{The iteration process may not converge for systems that have a high degree of coupling (see \cite{Stewart2010}).}
 
 The algorithm used to obtain the optimal input at each time step for a distributed controller is thus the same as for the centralized controller, with the exception that the QP is solved iteratively with information exchange between the controllers.
 The number of solver iterations used in this work was fixed at 3, based on an analysis of the cost function evolution as a function of solver iterations, which improves only marginally after 3 iterations.

@@ -13,6 +13,18 @@
 \input{head/acronyms}
 \input{figures/diagram.tex}
 
+\newcommand{\mysec}[1]{%
+  \vspace{-0.3ex}
+  \section{#1}
+  \vspace{-1.2ex}
+}
+
+\newcommand{\mysubsec}[1]{%
+  \vspace{-1.0ex}
+  \subsection{#1}
+  \vspace{-1.2ex}
+}
+
 \usetikzlibrary{external}
 \tikzexternalize
 %===============================================================================
@@ -29,8 +41,9 @@
 \author[First]{K. Jones} 
 \author[First]{A. Cortinovis} 
 \author[First]{M. Mercangoez}
+\author[First]{H.J. Ferreau}
 
-\address[First]{ABB Switzerland Ltd., Corporate Research, Baden-Dättwil, Switzerland (e-mail: katie.jones@reactive-robotics.com, andrea.cortinovis@ch.abb.com, mehmet.mercangoez@ch.abb.com).}
+\address[First]{ABB Switzerland Ltd., Corporate Research, Baden-Dättwil, Switzerland (e-mail: katie.jones@reactive-robotics.com, andrea.cortinovis@ch.abb.com, mehmet.mercangoez@ch.abb.com, joachim.ferreau@ch.abb.com).}
 
 \begin{abstract}                % Abstract of not more than 250 words.
   \input{head/abstract.tex}
@@ -43,20 +56,21 @@
 \end{frontmatter}
 %===============================================================================
 
-\section{Introduction}
+\mysec{Introduction}
 \input{intro.tex}
 
-\section{Modelling \& Simulation}
+\mysec{Modelling \& Simulation}
 \input{modelling.tex}
 
-\section{Model Predictive Control Formulation}
+\mysec{Model Predictive Control Formulation}
 \input{mpc.tex}
 
-\section{Simulation Results}
+\mysec{Simulation Results}
 \input{results.tex}
 
-\section{Conclusion}
+\mysec{Conclusion}
 \input{conclusion.tex}
-
+\vspace{-0.1cm}
+\vskip 0pt
 \bibliography{end/MasterThesis.bib}
 \end{document}

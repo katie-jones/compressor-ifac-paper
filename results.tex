@@ -7,13 +7,12 @@ The disturbances used were as follows:
   \item \textbf{parallel}: common tank discharge valve (\g{ut}) 70\% -> 40\% open;
   \item \textbf{serial}: downstream compressor discharge valve (\gii{ud}) 39\% -> 29\% open.
 \end{itemize}
-In the following plots, the disturbances are persistent and applied at \u{50}{s}, after the system has reached steady state.
+In the following plots, the disturbances are persistent and applied at \u{50}{s}, after the system has reached steady-state.
 
 The online active set QP solver \qpoases{} presented in \cite{Ferreau2014} was used to solve the optimization problems for all controllers.
 The distributed controllers in this section were implemented using 3 controller iterations. 
-As discussed in \cite{Jones2016}, this number was determined sufficient for convergence of the applied inputs.
 
-\subsection{Parallel System Control Performance}
+\mysubsec{Parallel System Control Performance}
 The time response of each controller for the parallel system is shown in \fig{res:parallel-timeresp}.
 The responses obtained using each of the three controllers are virtually identical -- in this case, using a distributed control approach has no performance penalty and a potential decrease in computational cost (see below).
 The main reason for this result is the very low degree of coupling between the two parallel compressors.
@@ -24,7 +23,7 @@ The main reason for this result is the very low degree of coupling between the t
   \resizebox{\linewidth}{!}{%
     \input{figures/parallel_all.tex}
   }
-  \caption[Time response of parallel system.]{Comparison of parallel system time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
+  \caption[Time response of parallel system.]{Comparison of parallel system time responses of centralized and distributed controllers using 3 solver iterations.}
   \label{fig:res:parallel-timeresp}
 \end{figure}
 
@@ -41,7 +40,7 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 
 \begin{table}
   \centering
-  \caption{Integral squared error (ISE) and integral absolute error (IAE) measures for parallel controllers.}
+  \caption{Integral squared error (ISE) and integral absolute error (IAE) for the parallel case.}
   \begin{tabular}{ccccccc}
     \toprule
     & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Cooperative} & \multicolumn{2}{c}{Non-cooperative}\\
@@ -58,7 +57,7 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 
 
 
-\subsection{Serial System Control Performance}
+\mysubsec{Serial System Control Performance}
 
 The time response of the serial system is shown in \fig{res:serial-timeresp}.
 A zoomed view of the initial surge distance response is shown in \fig{res:serial-sd-zoom}.
@@ -73,7 +72,7 @@ A zoomed view of the initial surge distance response is shown in \fig{res:serial
   \resizebox{\linewidth}{!}{%
     \input{figures/serial_all2.tex}
   }
-    \caption[Time response of serial system.]{Comparison of serial system time responses of centralized and distributed controllers using 3 solver iterations. Output disturbance is applied at \u{50}{s}.}
+    \caption[Time response of serial system.]{Comparison of serial system time responses of centralized and distributed controllers using 3 solver iterations.}
   \label{fig:res:serial-timeresp}
 \end{figure}
 
@@ -87,7 +86,7 @@ A zoomed view of the initial surge distance response is shown in \fig{res:serial
 
 Differences in the controller response and performance can be observed for each of the control approaches.
 The cooperative controller response is qualitatively similar to that of the centralized controller.
-It is, however, somewhat less aggressive in its regulation of the output pressure, evidenced by its less extreme change from high to low torque in the downstream compressor and faster return to the steady-state torque value, as shown in \fig{res:serial-timeresp}.
+It is, however, less aggressive in its regulation of the output pressure, evidenced by its less extreme change from high to low torque in the downstream compressor and faster return to the steady-state torque value (see \fig{res:serial-timeresp}).
 As a result, the output pressure of the downstream compressor has a much lower overshoot than either the centralized or non-cooperative controller.
 The surge distances of the centralized and cooperative controllers, however, show an almost identical response for the downstream compressor and a similar response upstream, though that of the cooperative controller has a greater increase near \u{58}{s} (see \fig{res:serial-sd-zoom}).
 
@@ -100,7 +99,7 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 
 \begin{table}
   \centering
-  \caption{Integral squared error (ISE) and integral absolute error (IAE) measures for serial controllers.}
+  \caption{Integral squared error (ISE) and integral absolute error (IAE) for the serial case.}
   \begin{tabular}{ccccccc}
     \toprule
     & \multicolumn{2}{c}{Centralized} & \multicolumn{2}{c}{Cooperative} & \multicolumn{2}{c}{Non-cooperative}\\
@@ -121,7 +120,7 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 
 
 
-\subsection{Computational Efficiency}
+\mysubsec{Computational Efficiency}
 
 The computational cost of the centralized and distributed control approaches was evaluated and is presented in \fig{results:compcost}.%
 \footnote{Tests run on a Intel\textregistered{} Core\texttrademark{} i5-540M \u{2.53}{\giga\hertz} processor.} 
@@ -133,7 +132,7 @@ The results should therefore be interpreted as a relative indicator of the compu
   \resizebox{\linewidth}{!}{%
     \input{figures/computation_cost.tex}
   }
-  \caption[Controller computation time per iteration.]{Average controller computation time per iteration, as a function of the number of solver iterations used. Operating point is 3 solver iterations. Output disturbance is applied at \u{50}{s} and total simulation time is \u{500}{s}.}
+  \caption[Controller computation time per iteration.]{Average controller computation time per iteration, as a function of the number of solver iterations used.}
   \label{fig:results:compcost}
 \end{figure}
 
@@ -146,4 +145,3 @@ The computational cost of the \g{qp} generation is approximately linear in the n
 
 As described in~\cite{Jones2016}, for the systems considered here, the QP-generation step has a much higher computational cost than the QP-solving step.
 There is thus limited scope for decreasing the required computation time without decreasing the number of states used to generate the QP problem.
-

@@ -1,7 +1,7 @@
 \label{sec:modelling}
 The models used in this work are based on a two-compressor system at an ABB Research facility.
 The physical setup is described in \cite{Cortinovis2014} and \cite{Cortinovis2015} for a single compressor.
-For simplicity, the two compressors in each system were assumed to be identical.
+For simplicity, both compressors were assumed to be identical.
 
 \begin{figure}
   % \begin{subfigure}{\linewidth}
@@ -19,7 +19,7 @@ For simplicity, the two compressors in each system were assumed to be identical.
 
 
 The compressor model used in this work is a centrifugal compressor driven by a variable-speed electric driver, with a tank at both the inlet (suction) and outlet (discharge).
-Both the suction and discharge tanks are connected to atmospheric pressure by a valve.
+Both tanks are connected to atmospheric pressure by a valve.
 These suction and discharge valves represent the flow conditions upstream and downstream of the compressor, such that various flow conditions and disturbances can be simulated by changing the position of the valves.
 The artificial disturbances applied using these valves are designed to mimic situations frequently encountered in industrial applications (e.g.\ shutdown or startup of a downstream compressor).
 The compressor model used is based on the Gravdahl-Greitzer model described in \cite{Gravdahl1999}. 
@@ -29,7 +29,7 @@ The controlled outputs are the output pressure (\g{pout}) and the surge distance
 The interested reader may refer to \cite{Cortinovis2015} for a more detailed description of the model and its identification.
 
 The parallel and serial compressor systems studied in this work are shown in Figure~\ref{fig:comp-systems-diagrams}.
-In the parallel case, the two compressors' outlet tanks both discharge into a single discharge tank and the pressure in this discharge tank (\g{pt}) is the primary process variable.
-This pressure also serves as an additional state while the inputs and outputs remain the same as for a single compressor.
-For the serial configuration, the upstream compressor discharges directly into the inlet of the downstream compressor.
+In the parallel case, the two compressors' outlet tanks both discharge into a single discharge tank, whose pressure (\g{pt}) is the primary process variable.
+This pressure serves as an additional state while the inputs and outputs remain the same as for a single compressor.
+For the serial configuration, the upstream compressor discharges into the inlet of the downstream compressor.
 The states, inputs and outputs are the same as those of the individual compressors.
