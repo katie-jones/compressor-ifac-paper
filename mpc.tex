@@ -17,19 +17,19 @@ Based on the linearized, augmented model, the optimization problem solved at eac
 %
 \begin{equation}
   \begin{split}
-    \g{Uk} & = \argmin_{U}\ \gi{Delta} \tps{U}\ \gi{weights}\ \gi{Delta} U \\
-    &\quad + \tps{\left( \gi{Delta}Y - \gi{Delta}\g{Yrefk} \right)} \gii{weights} \left( \gi{Delta}Y - \gi{Delta}\g{Yrefk} \right)\\
+    \gi{Delta} \g{Uk} & = \argmin_{\gi{Delta} U}\ \gi{Delta} \tps{U}\ \gi{weights}\ \gi{Delta} U \\
+    &\quad + \tps{\left( \gi{Delta}\g{Yk} - \gi{Delta}\g{Yrefk} \right)} \gii{weights} \left( \gi{Delta}\g{Yk} - \gi{Delta}\g{Yrefk} \right)\\
     \text{s.t. } & \gi{Delta} U\ut{min} \leq \gi{Delta} U \leq \gi{Delta} U\ut{max}\\
     & \gi{Delta} U\ut{r,min} \leq A\ut{rate} \gi{Delta} U \leq \gi{Delta} U\ut{r,max}\\
-    & \gi{Yk} = \gi{prediction-matrices} \gi{Delta} \g{Uk} + \gii{prediction-matrices} \g{xaug} + \giii{prediction-matrices} \g{fcurr}\text{,}
+    & \gi{Yk} = \ensuremath{S_{U}} \gi{Delta} U + \gii{prediction-matrices} \g{xaug} + \giii{prediction-matrices} \g{fcurr}\text{,}
   \end{split}
 \end{equation}
 %
 \noindent where:
 
 \begin{itemize}
-  \item \g{Uk} contains the optimal input sequence at time step $k$, stacked along the control horizon $m$;
-  \item \g{Yk} contains the output sequence resulting from the input sequence \g{Uk} at time step $k$, stacked along the prediction horizon $p$;
+  \item \gi{Delta} \g{Uk} contains the optimal input sequence at time step $k$, stacked along the control horizon $m$;
+  \item \gi{Delta} \g{Yk} contains the output sequence resulting from the input sequence \gi{Delta} \g{Uk} at time step $k$, stacked along the prediction horizon $p$;
   \item \g{Yrefk} is the reference output sequence;
   \item \giii{weights} are the weighting matrices used for the inputs and outputs, respectively;
   \item \giv{prediction-matrices} are the prediction matrices giving the contribution to \gi{Yk} of \gi{Delta}\g{Uk}, \g{xaug} and \g{fcurr} respectively;
@@ -85,10 +85,10 @@ A slight modification to the linear term is necessary to account for the fact th
   \label{eq:mpc:distributed-qp-terms}
 \end{equation}
 
-\noindent where \g{Uother} is the optimal input given by the other sub-controller and \g{prediction-uother} is the prediction matrix mapping the other sub-controller's inputs to the current outputs \gi{Yk}.
+\noindent where \gi{Uother} is the optimal input given by the other sub-controller and \g{prediction-uother} is the prediction matrix mapping the other sub-controller's inputs to the current outputs \gi{Yk}.
 
-This QP is unsolvable since \g{Uother} in turn depends on its solution.
-To break this circular dependency, the problem is initially solved with an estimate for \g{Uother} obtained from the previous QP solution.
+This QP is unsolvable since \gi{Uother} in turn depends on its solution.
+To break this circular dependency, the problem is initially solved with an estimate for \gi{Uother} obtained from the previous QP solution.
 The sub-controllers then exchange their solutions and re-solve the optimization.
 This procedure is repeated for a fixed number of iterations.%
 \footnote{The iteration process may not converge for systems that have a high degree of coupling (see \cite{Stewart2010}).}
