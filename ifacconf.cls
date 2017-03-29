@@ -1600,7 +1600,7 @@ et\or eu\or ew\or ex\or ey\or ez\else\@ctrerr\fi}
    \or \ddagger\ddagger \else\@ctrerr\fi}
 \def\newblock{}
 \let\printhistory\relax
-\textwidth182mm                % WAS 159 PMISRA
+\textwidth181.5mm                % WAS 159 PMISRA
 \textheight245mm               % WAS 252 PMISRA
 % SP 2001/08/07 text vertically centered on the page
 \voffset=-12.5mm               % VOFFSET
