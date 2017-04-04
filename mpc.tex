@@ -94,7 +94,7 @@ This procedure is repeated for a fixed number of iterations.%
 \footnote{The iteration process may not converge for systems that have a high degree of coupling (see \cite{Stewart2010}).}
 
 The algorithm used to obtain the optimal input at each time step for a distributed controller is thus the same as for the centralized controller, with the exception that the QP is solved iteratively with information exchange between the controllers.
-The number of solver iterations used in this work was fixed at 3, based on an analysis of the cost function evolution as a function of solver iterations, which improves only marginally after 3 iterations.
+The number of outer iterations used in this work was fixed at 3, based on an analysis of the cost function evolution as a function of outer iterations, which improves only marginally after 3 iterations.
 The details of this analysis are presented in \cite{Jones2016}.
 
 The cost functions used by the dMPC controllers apply weights to only a subset of the inputs and outputs.
