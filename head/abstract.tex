@@ -1,7 +1,7 @@
 The performance and computational cost of distributed MPC for the control of compressor networks is investigated in simulation.
 Both cooperative and non-cooperative approaches are considered and compared to the performance achieved with centralized control in the presence of a discharge-side disturbance.
 Two systems, each with two compressors, are studied: one is arranged in parallel configuration and the other in series.
-Due to the high degree of non-linearity of both systems, the models are re-linearized at each time step and a linear, delta MPC formulation is used.
+Due to the high degree of non-linearity of both systems, the models are re-linearized at each time step and a linear, delta-input MPC formulation is used.
 The non-cooperative controller exhibited a significantly reduced computation time relative to the centralized controller (25\% and 40\% lower for the parallel and serial configurations, respectively), while the cooperative controller did not significantly reduce the computation time.
 For the parallel configuration, both distributed and centralized controllers had identical control performance.
 For the serial configuration, only the cooperative controller achieved similar performance to the centralized approach; the non-cooperative controller demonstrated a 9\% reduction in the minimum surge control distance reached in the downstream compressor.

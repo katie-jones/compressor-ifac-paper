@@ -10,7 +10,7 @@ The disturbances used were as follows:
 In the following plots, the disturbances are persistent and applied at \u{50}{s}, after the system has reached steady-state.
 
 The online active set QP solver \qpoases{} presented in \cite{Ferreau2014} was used to solve the optimization problems for all controllers.
-The distributed controllers in this section were implemented using 3 controller iterations. 
+The distributed controllers in this section were implemented using 3 controller iterations.
 
 \mysubsec{Parallel System Control Performance}
 The time response of each controller for the parallel system is shown in \fig{res:parallel-timeresp}.
@@ -123,8 +123,8 @@ The integral squared error (ISE) and integral absolute error (IAE) are shown in 
 \mysubsec{Computational Efficiency}
 
 The computational cost of the centralized and distributed control approaches was evaluated and is presented in \fig{results:compcost}.%
-\footnote{Tests run on a Intel\textregistered{} Core\texttrademark{} i5-540M \u{2.53}{\giga\hertz} processor.} 
-The computation times for the distributed controllers assume a parallelized implementation where each sub-controller is executed using a separate processor. 
+\footnote{Tests run on a Intel\textregistered{} Core\texttrademark{} i5-540M \u{2.53}{\giga\hertz} processor using two cores (one per sub-controller).}
+The computation times for the distributed controllers assume a parallelized implementation where each sub-controller is executed using a separate processor.
 It should be noted that the processor used is from a standard laptop, and has a much higher clock rate than typical processors used in embedded controllers.
 The results should therefore be interpreted as a relative indicator of the computation time for each control approach and not as an indicator of absolute computation times that would be achieved in practice.
 

@@ -5,11 +5,11 @@ Centralized control is considered too computationally expensive to implement in 
 In order to take advantage of efficient QP solvers, the non-linear system is re-linearized at each time step and the resulting model used in the optimization.
 To control the relatively fast dynamics leading to compressor surge, the controllers operate at a sampling rate of $\g{ts} = \u{50}{ms}$.
 The model used for the MPC controller formulation is the same as the one used in \sect{modelling} to simulate the compressor.
-No model mismatch was considered in order to compare the controllers' performance in an ideal scenario.
+No model-plant mismatch was considered in order to compare the controllers' performance in an ideal scenario.
 
 The nonlinear model is linearized at each time step about the current states (\g{xhat}) and inputs (\gmo{ucurr}), and discretized using the 4th order Runge-Kutta method.
 The resulting discrete-time, linear system is then augmented to include both integrators (one per output) for offset-free control, and delayed input states for the recycle valve.
-40 delayed states per compressor are added (giving a total delay of \u{2}{s}).
+40 delay states per compressor are added (giving a total delay of \u{2}{s}).
 The interested reader may refer to \cite{Jones2016} for a detailed development of the augmented state equations.
 
 
@@ -28,19 +28,19 @@ Based on the linearized, augmented model, the optimization problem solved at eac
 \noindent where:
 
 \begin{itemize}
-  \item \gi{Delta} \g{Uk} contains the optimal input sequence at time step $k$, stacked along the control horizon $m$;
+  \item $\gi{Delta} \g{Uk}$ contains the optimal input sequence at time step $k$, stacked along the control horizon $m$;
   \item \gi{Delta} \g{Yk} contains the output sequence resulting from the input sequence \gi{Delta} \g{Uk} at time step $k$, stacked along the prediction horizon $p$;
   \item \g{Yrefk} is the reference output sequence;
   \item \giii{weights} are the weighting matrices used for the inputs and outputs, respectively;
-  \item \giv{prediction-matrices} are the prediction matrices giving the contribution to \gi{Yk} of \gi{Delta}\g{Uk}, \g{xaug} and \g{fcurr} respectively;
+  \item \giv{prediction-matrices} are the prediction matrices representing the contribution of the discretized dynamics to \gi{Yk};
   \item $\gi{Delta} U\ut{min}$, $\gi{Delta} U\ut{max}$, $\gi{Delta} U\ut{r,min}$ and $\gi{Delta} U\ut{r,max}$ contain the input bounds and rate constraints; and
   \item $A\ut{rate}$ is the matrix multiplied by \gi{Uk} to obtain the changes in inputs between two successive time steps.
 \end{itemize}
 
 The optimization is then converted to a dense formulation by eliminating the dependence on \gi{Delta}\g{Yk} through the equality constraint, and expressed as a QP problem with Hessian and linear terms dependent on the type of controller used.
 
-The prediction horizon $p$ used was 100, giving a prediction of \u{5}{s} determined to be sufficient to capture the relevant compressor dynamics.
-To decrease the aggressiveness of the controller as well as the QP complexity, a lower move (control) horizon $m$ of 2 was used.
+The prediction horizon length $p$ used was 100, giving a prediction of \u{5}{s} determined to be sufficient to capture the relevant compressor dynamics.
+To decrease the aggressiveness of the controller as well as the QP complexity, a lower control horizon length $m$ of 2 was used.
 
 The input constraints are determined by combining limits on both the range of the inputs and on their rate of change.
 The recycle valve has a range of 0--1 with rate constraints (maximum possible change over a single sampling period) of +1/-0.1.
@@ -87,9 +87,9 @@ A slight modification to the linear term is necessary to account for the fact th
 
 \noindent where \gi{Uother} is the optimal input given by the other sub-controller and \g{prediction-uother} is the prediction matrix mapping the other sub-controller's inputs to the current outputs \gi{Yk}.
 
-This QP is unsolvable since \gi{Uother} in turn depends on its solution.
-To break this circular dependency, the problem is initially solved with an estimate for \gi{Uother} obtained from the previous QP solution.
-The sub-controllers then exchange their solutions and re-solve the optimization.
+This QP is not well-defined since \gi{Uother} in turn depends on its solution.
+To break this circular dependency, the problem is first solved with an estimate for \gi{Uother} obtained from the previous QP solution.
+The sub-controllers then exchange solutions and re-solve the optimization.
 This procedure is repeated for a fixed number of iterations.%
 \footnote{The iteration process may not converge for systems that have a high degree of coupling (see \cite{Stewart2010}).}
 
@@ -100,4 +100,3 @@ The details of this analysis are presented in \cite{Jones2016}.
 The cost functions used by the dMPC controllers apply weights to only a subset of the inputs and outputs.
 For the cooperative controllers, all sub-controllers have equal weights on all outputs, but only have weights applied to the inputs of their corresponding compressor.
 For the non-cooperative controllers, the sub-controllers have non-zero weights on the inputs and outputs of their compressor.
-
